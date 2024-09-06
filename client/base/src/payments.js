@@ -1,7 +1,4 @@
 import axios from 'axios'
-  const amount = 500
-  const plan = "Basic"
-
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement('script')
@@ -47,7 +44,7 @@ import axios from 'axios'
   
   async function verifyPayment(data) {
     try {
-      await axios.post('http://localhost:5050/api/v1/payment/verify', data)
+      await axios.post('http://localhost:5050/api/v1/payment/verify', data, {withCredentials:true})
     } catch (error) {
       console.log(error);
       

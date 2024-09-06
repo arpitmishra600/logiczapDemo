@@ -19,7 +19,7 @@ import axios from 'axios'
   async function handleClick(amount, plan) {
     try {
       await loadScript('https://checkout.razorpay.com/v1/checkout.js') 
-      const orderResponse = await axios.post('http://localhost:5050/api/v1/payment/capturePayment', {amount: amount})
+      const orderResponse = await axios.post('http://localhost:5050/api/v1/payment/capturePayment', {amount: amount},{withCredentials:true})
       
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
@@ -53,3 +53,5 @@ import axios from 'axios'
       
     }
   }
+
+  export default handleClick

@@ -11,7 +11,10 @@ dotenv.config();
 const app = express();
 app.use(cookieParser())
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5050',
+    credentials: true
+}));
 
 app.listen(5050,()=>console.log("backend running"))
 

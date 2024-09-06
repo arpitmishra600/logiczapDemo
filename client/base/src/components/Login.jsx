@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import axios from "axios"
 import { Link, useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 export default function Login() {
     const [data,setData]=useState({email:"",password:""})
     const navigate=useNavigate()
@@ -14,6 +14,7 @@ export default function Login() {
          if (response.status==200 && response.data.message==="User logged in"){
              localStorage.setItem("loggedInAs",response.data.user.name)
              localStorage.setItem("plan",response.data.user.plan)
+             toast.success("Logged in successfully")
              navigate("/mainpage")
          }
        } catch (error) {

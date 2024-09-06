@@ -45,6 +45,7 @@ import axios from 'axios'
   async function verifyPayment(data) {
     try {
       await axios.post('http://localhost:5050/api/v1/payment/verify', data, {withCredentials:true})
+      localStorage.setItem("plan",data.plan)
     } catch (error) {
       console.log(error);
       

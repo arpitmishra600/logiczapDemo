@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 export default function Signup() {
+    const navigate= useNavigate()
     const [data,setData]=useState({name:"", email:"", password:"", country:"", state:"", city:"", pincode:"", phoneNumber:""})
     const handleSubmit=async()=>{
         console.log(data)
@@ -14,6 +15,7 @@ export default function Signup() {
             if (response.status==200 && response.data.message==="User logged in"){
                 localStorage.setItem("loggedInAs",response.data.user.name)
                 localStorage.setItem("plan","Free")
+                toast.success("Account created successfully")
                 navigate("/mainpage")
             }
           } catch (error) {

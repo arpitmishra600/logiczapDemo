@@ -1,4 +1,3 @@
-import React from 'react'
 import handleClick from '../payments'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
@@ -11,8 +10,10 @@ export default function Mainpage() {
         try {
             // const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/logout`,{withCredentials:true})
             // console.log(response)
-            navigate("/")
             localStorage.clear()
+            toast.success("Logged out successfully")
+            navigate("/")
+            
           } catch (error) {
           console.log(error)
           }
@@ -21,14 +22,14 @@ export default function Mainpage() {
   return (
     <div>
        
-      <body class="bg-[#333434] flex justify-center items-center min-h-screen px-4">
-    <input class="peer/option1 sr-only" id="option-1" type="radio" name="panel" />
-    <input class="peer/option2 sr-only" id="option-2" type="radio" name="panel" checked />
-    <input class="peer/option3 sr-only" id="option-3" type="radio" name="panel" />
+      <body className="bg-[#333434] flex justify-center items-center min-h-screen px-4">
+    <input className="peer/option1 sr-only" id="option-1" type="radio" name="panel" />
+    <input className="peer/option2 sr-only" id="option-2" type="radio" name="panel" checked />
+    <input className="peer/option3 sr-only" id="option-3" type="radio" name="panel" />
     <Button style={{position:'absolute',top:"10px"}} onClick={handelLogout}>Logout</Button>
     <h3 className='text-2xl absolute top-10 text-[white]'>Your plan - {localStorage.getItem("plan")}</h3>
-    <h1 class="sr-only">Pricing</h1>
-    <main class="grid md:grid-cols-3 min-[400px]:grid-cols-1 gap-4 w-full max-w-xs md:max-w-4xl 
+    <h1 className="sr-only">Pricing</h1>
+    <main className="grid md:grid-cols-3 min-[400px]:grid-cols-1 gap-4 w-full max-w-xs md:max-w-4xl 
      [&>article]:bg-[#2A2A2A]
         [&>article]:shadow-xl
         [&>article]:rounded-xl
@@ -146,8 +147,8 @@ export default function Mainpage() {
         X-hover:[&_article#price-3]:border-green-900
         peer-checked/option3:[&_article#price-3_.waves>svg]:bg-green-900   
     ">
-        <article id="price-1" class="group">
-            <hgroup class="gradient">
+        <article id="price-1" className="group">
+            <hgroup className="gradient">
                 <p>$4000<span>/mo</span></p>
                 <h2>Pro</h2>
             </hgroup>
@@ -159,22 +160,22 @@ export default function Mainpage() {
                     <li>Forum access</li>
                     <li>Support at $25/hour</li>
                 </ul>
-                <label for="option-1" class="group/btn">
-                    <div class="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(4000,"Pro")}>Choose plan</div>
+                <label htmlFor="option-1" className="group/btn">
+                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(4000,"Pro")}>Choose plan</div>
                 </label>
             </main>
 
-            <div class="waves group-hover:inset-[-40%_-20%_0_-40%] ">
-                <svg class="w-full h-full" viewBox="0 0 600 1000" xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="none" overflow="auto" shape-rendering="auto" fill="currentColor">
+            <div className="waves group-hover:inset-[-40%_-20%_0_-40%] ">
+                <svg className="w-full h-full" viewBox="0 0 600 1000" xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none" overflow="auto" shapeRendering="auto" fill="currentColor">
                     <path id="wavepath" d="M 0 2000 0 500 Q 150 434 300 500 t 300 0 300 0 300 0 300 0 300 0  v1000 z" />
                 </svg>
             </div>
         
         </article>
 
-        <article id="price-2" class="group">
-            <hgroup class="gradient">
+        <article id="price-2" className="group">
+            <hgroup className="gradient">
                 <p>$2000<span>/mo</span></p>
                 <h2>Basic</h2>
             </hgroup>
@@ -186,14 +187,14 @@ export default function Mainpage() {
                     <li>Forum access</li>
                     <li>Support at $5/hour</li>
                 </ul>
-                <label for="option-2" class="group/btn" >
-                    <div class="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(2000,"Basic")}>Choose plan</div>
+                <label htmlFor="option-2" className="group/btn" >
+                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(2000,"Basic")}>Choose plan</div>
                 </label>
             </main>
 
-            <div class="waves group-hover:inset-[-40%_-10%_0_0%]">
-                <svg class="w-full h-full" viewBox="0 0 600 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
-                    overflow="auto" shape-rendering="auto" fill="currentColor">
+            <div className="waves group-hover:inset-[-40%_-10%_0_0%]">
+                <svg className="w-full h-full" viewBox="0 0 600 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                    overflow="auto" shapeRendering="auto" fill="currentColor">
                     <path id="wavepath" d="M 0 2000 0 500 Q 150 434 300 500 t 300 0 300 0 300 0 300 0 300 0  v1000 z" />
                 </svg>
             </div>
@@ -201,8 +202,8 @@ export default function Mainpage() {
            
         </article>
 
-        <article id="price-3" class="group">
-            <hgroup class="gradient">
+        <article id="price-3" className="group">
+            <hgroup className="gradient">
                 <p>$3000<span>/mo</span></p>
                 <h2>Advanced</h2>
             </hgroup>
@@ -213,14 +214,14 @@ export default function Mainpage() {
                     <li>Forum access</li>
                     <li>Free Support</li>
                 </ul>
-                <label for="option-3" class="group/btn"         >
-                    <div class="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(3000,"Advanced")}>Choose plan</div>
+                <label htmlFor="option-3" className="group/btn"         >
+                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(3000,"Advanced")}>Choose plan</div>
                 </label>
             </main>
 
-            <div class="waves group-hover:inset-[-40%_-40%_0_-0%]">
-                <svg class="w-full h-full" viewBox="0 0 600 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
-                    overflow="auto" shape-rendering="auto" fill="currentColor">
+            <div className="waves group-hover:inset-[-40%_-40%_0_-0%]">
+                <svg className="w-full h-full" viewBox="0 0 600 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                    overflow="auto" shapeRendering="auto" fill="currentColor">
                     <path id="wavepath" d="M 0 2000 0 500 Q 150 434 300 500 t 300 0 300 0 300 0 300 0 300 0  v1000 z" />
                 </svg>
             </div>

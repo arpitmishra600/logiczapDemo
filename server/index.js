@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser())
 app.use(express.json());
 app.use(cors({
-    origin: 'https://logiczap-demo.vercel.app/',
+    origin: 'https://logiczap-demo.vercel.app',
     credentials: true
 }));
 

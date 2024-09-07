@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken");
 const options = {
   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
   httpOnly: true, 
-  secure: true
+  secure: true,
+  sameSite: "None"
 }
 
 exports.signupHandler = async (req, res) => {

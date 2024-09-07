@@ -16,7 +16,7 @@ import axios from 'axios'
   async function handleClick(amount, plan) {
     try {
       await loadScript('https://checkout.razorpay.com/v1/checkout.js') 
-      const orderResponse = await axios.post('http://localhost:5050/api/v1/payment/capturePayment', {amount: amount},{withCredentials:true})
+      const orderResponse = await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/payment/capturePayment`, {amount: amount},{withCredentials:true})
       
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
@@ -44,7 +44,7 @@ import axios from 'axios'
   
   async function verifyPayment(data) {
     try {
-      await axios.post('http://localhost:5050/api/v1/payment/verify', data, {withCredentials:true})
+      await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/payment/verify`, data, {withCredentials:true})
       localStorage.setItem("plan",data.plan)
     } catch (error) {
       console.log(error);

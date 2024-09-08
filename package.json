@@ -9,7 +9,7 @@
     "clientdeps":"cd client && cd base && npm i",
     "serverdeps":"cd server && npm i",
     "devdepinstall":"npm install",
-    "dev":"concurrently \"npm run client\" \"npm run server\"",
+    "dev":"concurrently \"npm install\" \"npm run client\" \"npm run server\"",
     "alldeps":"concurrently \"npm run devdepinstall\" \"npm run clientdeps\" \"npm run serverdeps\""
 
   },

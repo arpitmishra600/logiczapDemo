@@ -18,7 +18,7 @@ import toast from 'react-hot-toast';
   async function handleClick(amount, plan) {
     try {
       await loadScript('https://checkout.razorpay.com/v1/checkout.js') 
-      const orderResponse = await axios.post('http://localhost:5050/api/v1/payment/capturePayment', {amount: amount},{withCredentials:true})
+      const orderResponse = await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/payment/capturePayment`, {amount: amount},{withCredentials:true})
       
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
@@ -46,8 +46,12 @@ import toast from 'react-hot-toast';
   
   async function verifyPayment(data) {
     try {
+<<<<<<< HEAD
       await axios.post('http://localhost:5050/api/v1/payment/verify', data, {withCredentials:true})
       toast.success('Payment successful')
+=======
+      await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/payment/verify`, data, {withCredentials:true})
+>>>>>>> 9cd98910b220ce23342a33c02e6572c5f44ac99f
       localStorage.setItem("plan",data.plan)
     } catch (error) {
       console.log(error);

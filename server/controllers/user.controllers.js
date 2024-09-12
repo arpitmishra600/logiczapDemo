@@ -8,7 +8,8 @@ const mongoose = require("mongoose");
 const options = {
   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
   httpOnly: true, 
-  secure: false
+  secure: true,
+  sameSite: "None"
 }
 
 const passwordSchema = z.string()

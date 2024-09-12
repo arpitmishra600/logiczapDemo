@@ -1,4 +1,6 @@
 import axios from 'axios'
+import toast from 'react-hot-toast';
+
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement('script')
@@ -45,6 +47,7 @@ import axios from 'axios'
   async function verifyPayment(data) {
     try {
       await axios.post('http://localhost:5050/api/v1/payment/verify', data, {withCredentials:true})
+      toast.success('Payment successful')
       localStorage.setItem("plan",data.plan)
     } catch (error) {
       console.log(error);

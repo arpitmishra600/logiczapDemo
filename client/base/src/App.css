@@ -1,0 +1,11 @@
+/* #price-1:hover{
+    animation: Rvert-center 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) 0s 1 normal both;
+}
+@keyframes Rvert-center {
+    0% {
+      transform: perspective(700px) rotateY(0);
+    }
+    100% {
+      transform: perspective(700px)  rotateY(180deg);
+    }
+  } */

@@ -103,6 +103,9 @@ exports.signupHandler = async (req, res) => {
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
+        if(!otp){
+            return res.status(400).json({message: "Please verify email"});
+        }
         const parsed = userSchema.safeParse(req.body);
 
         if (!parsed.success) {

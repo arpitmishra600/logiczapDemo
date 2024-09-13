@@ -3,8 +3,12 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { useMyContext } from '../context/Context'
+import Poppup from './Poppup'
+import { useState } from 'react'
 
 export default function Mainpage() {
+    const [selectedPlan,setSelectedPlan]=useState(["",0])
     const navigate=useNavigate()
     const handelLogout=async()=>{
         try {
@@ -19,6 +23,7 @@ export default function Mainpage() {
           }
         
     }
+    const {poppup,setPoppup}=useMyContext()
   return (
     <div>
        
@@ -161,7 +166,7 @@ export default function Mainpage() {
                     <li>Support at $25/hour</li>
                 </ul>
                 <label htmlFor="option-1" className="group/btn">
-                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(4000,"Pro")}>Choose plan</div>
+                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>{setPoppup(true);setSelectedPlan(["Pro",4000])}}>Choose plan</div>
                 </label>
             </main>
 
@@ -188,7 +193,7 @@ export default function Mainpage() {
                     <li>Support at $5/hour</li>
                 </ul>
                 <label htmlFor="option-2" className="group/btn" >
-                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(2000,"Basic")}>Choose plan</div>
+                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black"  onClick={()=>{setPoppup(true);setSelectedPlan(["Basic",2000])}}>Choose plan</div>
                 </label>
             </main>
 
@@ -215,7 +220,7 @@ export default function Mainpage() {
                     <li>Free Support</li>
                 </ul>
                 <label htmlFor="option-3" className="group/btn"         >
-                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black" onClick={()=>handleClick(3000,"Advanced")}>Choose plan</div>
+                    <div className="gradient delay-50 group-hover/btn:!from-black group-hover/btn:!to-black"  onClick={()=>{setPoppup(true);setSelectedPlan(["Advanced",3000])}}>Choose plan</div>
                 </label>
             </main>
 
@@ -230,7 +235,7 @@ export default function Mainpage() {
     </main>
  
 </body>
-
+<Poppup plan={selectedPlan}/>
     </div>
   )
 }

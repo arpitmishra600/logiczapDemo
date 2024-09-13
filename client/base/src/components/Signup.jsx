@@ -1,23 +1,31 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 export default function Signup() {
+    const navigate= useNavigate()
     const [data,setData]=useState({name:"", email:"", password:"", country:"", state:"", city:"", pincode:"", phoneNumber:""})
     const handleSubmit=async()=>{
-        console.log(data)
         try {
-            const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/signup`,data,{withCredentials:true})
-            console.log(response)
-            if (response.status==200 && response.data.message==="User logged in"){
+            const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/signup`,data,{withCredentials:true})        
                 localStorage.setItem("loggedInAs",response.data.user.name)
                 localStorage.setItem("plan","Free")
+                toast.success("Account created successfully")
                 navigate("/mainpage")
-            }
           } catch (error) {
-           toast.error(error.response.data.message)
+            const errors = error.response.data.errors;    
+            console.log(errors);
+            if (errors.email) {
+              toast.error(errors.email._errors[0])
+            }
+            if (errors.password) {
+              toast.error(errors.password._errors[0])
+            }
+            if (errors.phoneNumber) {
+              toast.error(errors.phoneNumber._errors[0])
+            }
           }
     }
   return (

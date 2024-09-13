@@ -26,6 +26,7 @@ export default function Poppup({plan}) {
     <React.Fragment>
       <Dialog
         open={poppup}
+    
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}

@@ -1,0 +1,17 @@
+import { Avatar } from '@mui/material'
+import React from 'react'
+
+export default function AskCard() {
+  return (
+    <div className='flex flex-col card-shadow rounded-[20px] border p-6'>
+      
+        <div className='flex items-center gap-1'>
+            <Avatar sx={{height:20,width:20,mb:1.1}}/>
+            <p class="text-xs text-[#475467] mb-3 "><span class="text-[14px] font-medium leading-5 text-[#272727] md:text-[16px] md:font-semibold">Mohammad Owaiz Shaik</span> | Working Professional</p>
+        </div>
+        <p class="mt-4 mb-3 font line-clamp-2 text-[12px] font-medium leading-6 -tracking-[0.176px] md:text-[14px] md:font-semibold">How do I become a cloud engineer?</p>
+        <div class="line-clamp-5 text-[12px] leading-6 -tracking-[0.176px] text-[#5C5C5C] md:text-[14px]">   To become a cloud engineer, you can follow these steps:         Obtain a relevant degree or certification:  Consider pursuing a degree in computer science, information technology, or a related field. Alternatively, you can acquire certifications like AWS Certified Solutions Architect or Microsoft Certified: Azure Solutions Architect.   Gain experience with cloud technologies:  Familiarize yourself with popular cloud platforms like Amazon Web Services (AWS), Microsoft Azure, or Google Cloud Platform (GCP). Learn about cloud computing concepts, virtualization, networking, and storage.   Develop programming and scripting skills:  Learn programming languages commonly used in cloud environments, such as Python, Java, or PowerShell. Acquire scripting skills to automate tasks and manage cloud resources efficiently.   Learn infrastructure as code (IaC) tools:  Gain proficiency in tools like Terraform or AWS CloudFormation, which enable you to define and manage infrastructure using code.   Gain hands-on experience:  Practice deploying and managing cloud resources. Set up virtual machines, containers, databases, and networking configurations in a cloud environment. Explore different services offered by cloud providers.   Expand your knowledge:  Stay updated with the latest developments in cloud computing, attend webinars, join communities, and engage in online forums. Continuously learn about new services, best practices, and emerging trends.   Showcase your skills:  Build a portfolio of projects or contribute to open-source projects related to cloud computing. Demonstrate your ability to design, implement, and manage cloud infrastructure effectively.   Networking and collaboration:  Connect with professionals in the field through networking events, conferences, or online communities. Collaborate with others on cloud-related projects to gain insights and expand your knowledge.   Keep learning and adapting:  Cloud technologies evolve rapidly, so it's crucial to stay curious and embrace continuous learning. Seek opportunities to acquire new skills, explore different cloud services, and adapt to changing industry demands.   Seek cloud engineer positions:  Once you feel confident in your skills and experience, start applying for cloud engineer roles. Tailor your resume to highlight your cloud expertise and showcase your projects. Prepare for interviews by studying common cloud-related questions and practicing your responses.      Remember, becoming a cloud engineer is an ongoing journey of learning and practical application. Stay dedicated, keep building your skills, and embrace the opportunities that come your way. </div>
+      
+    </div>
+  )
+}

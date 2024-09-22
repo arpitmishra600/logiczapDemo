@@ -238,7 +238,7 @@ export default function Signup() {
     <TextField id="pincode" type='number' label="pincode" variant="outlined" onChange={(e)=>setData({...data,pincode:e.target.value})} error={errors.pincode} helperText={errors.pincode}/>
         <Button variant='contained' onClick={handleSubmit}>Signup</Button>
       </div>
-      <div className='text-xl '>Existing user....<Link to="/" className='text-[blue]'>login</Link></div>
+      <div className='text-xl '>Existing user....<Link to="/login" className='text-[blue]'>login</Link></div>
     </div>
   )
 }

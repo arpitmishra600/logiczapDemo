@@ -7,6 +7,7 @@ import Signup from './components/Signup'
 import Mainpage from './components/Mainpage'
 import Protected from './components/Protected'
 import {Toaster} from "react-hot-toast"
+import Landing from './pages/landing/Landing'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,7 +17,8 @@ function App() {
     <>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Login/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/' element={<Landing/>}></Route>
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/mainpage' element={<Protected><Mainpage/></Protected>}></Route>
           </Routes>

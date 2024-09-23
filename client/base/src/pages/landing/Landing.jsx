@@ -12,7 +12,6 @@ import IconCards from './IconCards';
 import AskCard from './AskCard';
 import FAQ from './FAQ';
 import Footer from './Footer';
-import vdo from "./bkg.mp4"
 import GetStartedButton from './GetStartedButton';
 import verified from "../../assets/verified.svg"
 import suitcase from "../../assets/suitcase.svg"
@@ -40,10 +39,10 @@ export default function Landing() {
         loop 
         muted 
         playsInline 
-        className="fixed z-[-1] opacity-50"
-        
+        className="fixed z-[-1] opacity-50 w-screen"
+        src='https://static.vecteezy.com/system/resources/previews/044/179/493/mp4/clean-and-clear-black-professional-loop-able-background-with-black-color-grid-moving-slowly-free-video.mp4'
       >
-        <source src={vdo} type="video/mp4" />
+    
         Your browser does not support the video tag.
       </video>
       <div class="flex flex-col items-start px-1 pb-9 pt-[64px] md:items-center md:gap-3 md:pb-10 md:pt-[84px] md:text-center h-[90vh]">

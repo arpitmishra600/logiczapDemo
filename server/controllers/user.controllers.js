@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const z = require("zod");
 const Otp = require("../models/otp.models")
-const mongoose = require("mongoose");
+const UserProfile = require("../models/userProfile.models");
 
 const options = {
   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
@@ -74,6 +74,10 @@ exports.sendOtpHandler = async (req, res) => {
             return res.status(400).json({message: "Please enter email"});  
         }
 
+        if (!z.string().email().safeParse(email).success) {
+            return res.status(400).json({message: "Invalid email", errors});
+        }
+
         const user = await User.findOne({email});
 
         if (user) {
@@ -129,6 +133,14 @@ exports.signupHandler = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const customId = await generateCustomId(User.collection);
+
+        const profile = await UserProfile.create({
+            education: [],
+            workExperience: [],
+            positionsOfResponsibility: [],
+            skills: []
+        });
+        
         const user = await User.create({
           _id: customId,
           name,
@@ -138,7 +150,8 @@ exports.signupHandler = async (req, res) => {
           state,
           city,
           pincode,
-          phoneNumber
+          phoneNumber,
+          profile: profile._id            
       });
 
       const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
@@ -197,5 +210,14 @@ exports.resetPlanHandler = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(400).json({message: "Error resetting plan"});    
+    }
+}
+
+exports.getFullUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).populate("profile");
+        return res.status(200).json({user});
+    } catch (error) {
+        return res.status(400).json({message: "Error getting user"});
     }
 }

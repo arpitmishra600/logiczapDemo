@@ -150,6 +150,7 @@ export default function Signup() {
         setResendIn(true)
         startTimer()
         const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/sendOtp`,{email:data.email},{withCredentials:true})
+        toast.success("OTP sent successfully")
         console.log(response.data.otp)
       } catch (error) {
         toast.error(error.response.data.message)

@@ -23,8 +23,8 @@ otpSchema.index({createdAt: 1}, {expireAfterSeconds: 300});
 
 async function sendVerificationEmail(email, otp) {
     try {
-        await mailSender(email, "OTP Verification", otp);
-        console.log("OTP sent successfully", otp);  
+        await mailSender(email, "OTP Verification", `Your OTP is ${otp} and is valid for 5 minutes.`);
+         
     } catch (error) {
         console.log(error);     
     }

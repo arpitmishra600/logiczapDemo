@@ -221,3 +221,34 @@ exports.getFullUser = async (req, res) => {
         return res.status(400).json({message: "Error getting user"});
     }
 }
+
+exports.searchUser = async (req, res) => {
+    const filter = req.query.filter || "";
+    try {
+        const users = await User.find({name: {$regex: filter, $options: "i"}}).select("name email _id");
+        return res.status(200).json({users})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Error fetching users"});
+    }
+}
+
+exports.searchUserBySkills = async (req, res) => {
+    const skills = req.body || [];
+    try {
+        const matchingProfiles = await UserProfile.find({
+            "skills.name": {$all: skills}
+        });
+
+        const userIds = matchingProfiles.map(profile => profile._id);
+
+        const users = await User.find({profile: {$in: userIds}}).populate("profile");
+
+        return res.status(200).json({message: "Users fetched", users})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Error fetching users"});
+    }
+}
+
+

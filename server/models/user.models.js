@@ -45,8 +45,14 @@ const userSchema = new mongoose.Schema({
     profile: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserProfile',
+    }, 
+    resetToken: {
+        type: String,
+    },
+    resetTokenExpiry: {
+        type: Date,
     }
-}, {timestamps: true});
+}, {timestamps: true}); 
 
 
 

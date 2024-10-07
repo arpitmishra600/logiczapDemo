@@ -65,7 +65,7 @@ exports.companySignupHandler = async (req, res) => {
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
-        const parsed = userSchema.safeParse(req.body);
+        const parsed = companySchema.safeParse(req.body);
 
         if (!parsed.success) {
             const errors = parsed.error.format();
@@ -79,8 +79,10 @@ exports.companySignupHandler = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const customId = await generateCustomId(User.collection);
         
         const newCompany = await Company.create({
+            _id: customId,
             companyName,
             email,
             password: hashedPassword,
@@ -123,4 +125,15 @@ exports.companyLoginHandler = async (req, res) => {
         console.log(error);
         return res.status(400).json({message: "Error logging in"});
     }
+}
+
+exports.searchCompany = async (req, res) => {
+  const filter = req.query.filter || "";
+  try {
+      const companies = await Company.find({name: {$regex: filter, $options: "i"}}).select("companyName email _id");
+      return res.status(200).json({companies})
+  } catch (error) {
+      console.log(error);
+      return res.status(500).json({message: "Error fetching companies"});
+  }
 }

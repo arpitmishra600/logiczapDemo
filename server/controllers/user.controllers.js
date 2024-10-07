@@ -234,10 +234,15 @@ exports.searchUser = async (req, res) => {
 }
 
 exports.searchUserBySkills = async (req, res) => {
-    const skills = req.body || [];
+    const {skillNames} = req.body || [];
+
+    if (skillNames.length === 0) {
+        return res.status(400).json({message: "Please provide skills"});
+    }
+
     try {
         const matchingProfiles = await UserProfile.find({
-            "skills.name": {$all: skills}
+            "skills.name": {$all: skillNames}
         });
 
         const userIds = matchingProfiles.map(profile => profile._id);

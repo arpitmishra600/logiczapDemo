@@ -79,7 +79,7 @@ exports.companySignupHandler = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const customId = await generateCustomId(User.collection);
+        const customId = await generateCustomId(Company.collection);
         
         const newCompany = await Company.create({
             _id: customId,

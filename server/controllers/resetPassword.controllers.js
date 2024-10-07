@@ -24,14 +24,14 @@ exports.resetPasswordToken = async (req, res) => {
 
     await mailSender(email, "Password Reset", `Click on the link to reset your password: ${url}`);
 
-    return res.status(200).json({message: "Password reset link sent to your email", token});
+    return res.status(200).json({message: "Password reset link sent to your email", resetToken, url});
   } catch (error) {
     console.log(error);
     return res.status(400).json({message: "Error sending reset link"});
   }
 }
 
-exprots.resetPassword = async (req, res) => {
+exports.resetPassword = async (req, res) => {
   const {password, resetToken} = req.body;
 
   try {

@@ -6,8 +6,12 @@ const MyContext = createContext();
 // Create a Provider component
 const Context = ({ children }) => {
     const [poppup, setPoppup] = useState(false);
+    const [formSteps, setFormSteps] = useState(0);
+    const [expdialog,setExpdialog]=useState(false)
+    const [edudialog,setEdudialog]=useState(false)
+    const [proDialog,setProDialog]=useState(false)
     return (
-        <MyContext.Provider value={{poppup, setPoppup }}>
+        <MyContext.Provider value={{poppup, setPoppup,formSteps, setFormSteps,expdialog,setExpdialog,edudialog,setEdudialog,proDialog,setProDialog}}>
             {children}
         </MyContext.Provider>
     );

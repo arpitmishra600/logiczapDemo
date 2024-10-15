@@ -14,7 +14,7 @@ export default function Footer() {
     <div className='bg-[white]'>
         <div className='flex relative relative -bottom-10 '>
           <div className='flex flex-col justify-center w-screen h-[70vh] items-center bg-[#ECF0F6] rounded-[32px] ' style={{background:"linear-gradient(to bottom, rgba(0,0,0,0) 30%, #ECF0F6 70%)"}}>
-          <FootForm/>
+          
         <p class="text-center text-[20px] font-semibold leading-[26px] -tracking-[0.8px] text-[#272727] md:text-[40px] md:font-medium md:leading-[50px] px-10">Connect with us</p>
         <p class="text-center text-[20px] leading-[26px] -tracking-[0.8px] text-[#272727] md:text-[30px]  md:leading-[50px] px-10">"Stay Updated about the latest job alerts, subscribe to our newsletter."</p>
         {/* <div className='w-[55%]'><img src='./arrow.png' className='rotate-[180deg] scale-x-[-1] h-[200px]'/></div> */}

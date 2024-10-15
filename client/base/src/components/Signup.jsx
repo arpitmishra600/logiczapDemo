@@ -28,6 +28,7 @@ export default function Signup() {
     const [seconds, setSeconds] = useState(10);
   const [isActive, setIsActive] = useState(false);
   const [resendIn,setResendIn]=useState(false)
+  const [userType,setUserType]=useState("candidate")
     
 
     useEffect(()=>{
@@ -171,75 +172,134 @@ export default function Signup() {
     setIsActive(true);
   };
   return (
-    <div className='flex justify-center items-center h-screen flex-col'>
-      <div className='flex border flex-col gap-3 p-10 w-[400px] mt-[200px]'>
-        <span className='text-3xl font-bold'>Signup page(demo)</span>
-        <TextField id="name" label="name" variant="outlined" onChange={(e)=>setData({...data,name:e.target.value})} error={errors.name} helperText={errors.name}/>
-        <TextField id="email" label="email" variant="outlined" onChange={(e)=>setData({...data,email:e.target.value})} error={errors.email} helperText={errors.email}/>
+    <div className='flex w-screen h-screen  justify-center items-center bg-[#D8DEEE] font-[inter] min-h-[600px]'>
+          <div className='flex justify-center w-[90%] h-[90%] min-h-[600px]  max-sm:h-screen max-sm:w-screen card-shadow-lite bg-white' >
+          <div className='flex-1 card-shadow-lite2 max-md:hidden' style={{background:"url('./signupbkg.png')",backgroundSize:'cover',backgroundRepeat:"no-repeat"}}></div>
+            <div className='flex-[0.8] flex justify-center pt-5 max-md:flex-1 max-sm:items-start'>
+              <div className='flex flex-col gap-1 w-[95%] text-nowrap'>
+                <div className='tracking-wider mb-5'>
+                  <div className='text-2xl font-bold max-sm:text-[1.3rem]'>Create account</div>
+                  <div className='text-2xl font-bold poppins max-sm:text-sm'>Get started with <span className='text-[#37295A] font-[800]'>Digifolio</span></div>
+                </div>
+                <div className='flex justify-center'>
+                  <div className='flex border mb-5'>
+                    <div className={`flex-1 flex justify-center items-center py-2 ${userType=="candidate"?"bg-[#37295A] text-white":"bg-[#E6E6E6] text-black"} px-14 transition-all duration-0.5 cursor-pointer`} onClick={(e)=>setUserType("candidate")}>Candidate</div>
+                    <div className={`flex-1 flex justify-center items-center py-2 ${userType=="recruiter"?"bg-[#37295A] text-white":"bg-[#E6E6E6] text-black"} px-14 transition-all duration-0.5 cursor-pointer`} onClick={()=>setUserType("recruiter")}>Recruiter</div>
+                  </div>
+                </div>
+
+                <div className='w-[100%] flex justify-center items-center gap-3 border font-[inter] p-3  card-shadow-lite2 rounded cursor-pointer'><img src='./google.svg' className='w-[30px]'/><div className='font-500'>Google</div></div>
+                <div className=' border my-5 relative flex items-center justify-center'><div className='font-[inter] absolute bg-[white] text-xs -top-2 px-3 '>Or with email and password</div></div>
+
+
+                {userType=="candidate"?<div className='flex flex-col gap-2'>
+       <div className='gap-2 flex max-sm:flex-col'>
+          <TextField className='flex-1' id="name" label="name" variant="outlined" onChange={(e)=>setData({...data,name:e.target.value})} error={errors.name} helperText={errors.name} size='small'/>
+          <TextField className='flex-1' id="email" label="email" variant="outlined" onChange={(e)=>setData({...data,email:e.target.value})} error={errors.email} helperText={errors.email} size='small'/>
+       </div>
         {!verify && <MuiOtpInput value={data.otp} onChange={(e)=>setData({...data,otp:e})} length={6} TextFieldsProps={{ size: 'small' }}/>}
         {data.email.length>0 && <Button variant="contained" onClick={handleVerify} disabled={resendIn}>{!resendIn?"send otp":`resend(in ${seconds}s)`}</Button>}
-        <TextField id="password" label="password" variant="outlined" onChange={(e)=>setData({...data,password:e.target.value})} error={errors.password} helperText={errors.password}/>
-        <MuiPhoneNumber defaultCountry={'in'} variant='outlined' label='phoneNumber' onChange={(e)=>setPhone(e)} error={errors.phoneNumber} helperText={errors.phoneNumber}/>
-        <Autocomplete
-      id="country-select-demo"
-      sx={{ width: 300 }}
-      options={countries}
-      onChange={(e,v)=>{setCcode(State.getStatesOfCountry(v.code));setCountryCode(v.code);setData({...data,country:v.label})}}
-      autoHighlight
-      getOptionLabel={(option) => option.label}
-      renderOption={(props, option) => {
-        const { key, ...optionProps } = props;
-        return (
-          <Box
-            key={key}
-            component="li"
-            sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-            {...optionProps}
-          >
-            <img
-              loading="lazy"
-              width="20"
-              srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-              src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-              alt=""
-            />
-            {option.label} ({option.code}) +{option.phone}
-          </Box>
-        );
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="country"
-          error={errors.country} helperText={errors.country}
-          slotProps={{
-            htmlInput: {
-              ...params.inputProps,
-              autoComplete: 'new-password', // disable autocomplete and autofill
-            },
-          }}
-        />
-      )}
-    />
-    <Autocomplete
-      disablePortal
-      options={stateDrop}
-          onChange={(e)=>{setScode(City.getCitiesOfState(countryCode,stateDrop.filter((item)=>item.label==e.target.innerHTML)[0].iso));setData({...data,state:e.target.innerHTML})}}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="state" error={errors.state} helperText={errors.state}/>}
-    />
-    <Autocomplete
-      disablePortal
-      options={cityDrop}
-      onChange={(e)=>setData({...data,city:e.target.innerHTML})}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="city" error={errors.city} helperText={errors.city}/>}
-    />
-    <TextField id="pincode" type='number' label="pincode" variant="outlined" onChange={(e)=>setData({...data,pincode:e.target.value})} error={errors.pincode} helperText={errors.pincode}/>
-        <Button variant='contained' onClick={handleSubmit}>Signup</Button>
-      </div>
-      <div className='text-xl '>Existing user....<Link to="/login" className='text-[blue]'>login</Link></div>
+        <div className='flex gap-2 max-sm:flex-col'>
+          <TextField id="password" className='flex-1' label="password" size='small' variant="outlined" onChange={(e)=>setData({...data,password:e.target.value})} error={errors.password} helperText={errors.password}/>
+          <TextField id="password" className='flex-1' label="confirm password" size='small' variant="outlined" />
+        </div>
+        <MuiPhoneNumber defaultCountry={'in'} variant='outlined' label='phoneNumber' onChange={(e)=>setPhone(e)} error={errors.phoneNumber} helperText={errors.phoneNumber} size='small'/>
+        <div className='flex gap-2 max-sm:flex-col'>
+          <Autocomplete
+          size='small'
+          className='flex-1'
+        id="country-select-demo"
+
+        options={countries}
+        onChange={(e,v)=>{setCcode(State.getStatesOfCountry(v.code));setCountryCode(v.code);setData({...data,country:v.label})}}
+        autoHighlight
+        getOptionLabel={(option) => option.label}
+        renderOption={(props, option) => {
+          const { key, ...optionProps } = props;
+          return (
+            <Box
+              key={key}
+              component="li"
+              sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+              {...optionProps}
+            >
+              <img
+                loading="lazy"
+                width="20"
+                srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                alt=""
+              />
+              {option.label} ({option.code}) +{option.phone}
+            </Box>
+          );
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="country"
+            error={errors.country} helperText={errors.country}
+            slotProps={{
+              htmlInput: {
+                ...params.inputProps,
+                autoComplete: 'new-password', // disable autocomplete and autofill
+              },
+            }}
+          />
+        )}
+      />
+      <Autocomplete
+      size='small'
+          className='flex-1'
+        disablePortal
+        options={stateDrop}
+            onChange={(e)=>{setScode(City.getCitiesOfState(countryCode,stateDrop.filter((item)=>item.label==e.target.innerHTML)[0].iso));setData({...data,state:e.target.innerHTML})}}
+   
+        renderInput={(params) => <TextField {...params} label="state" error={errors.state} helperText={errors.state}/>}
+      />
+        </div>
+    <div className='flex gap-2'>
+      <Autocomplete
+      size='small'
+            className='flex-1'
+        disablePortal
+        options={cityDrop}
+        onChange={(e)=>setData({...data,city:e.target.innerHTML})}
+      
+        renderInput={(params) => <TextField {...params} label="city" error={errors.city} helperText={errors.city}/>}
+      />
+      <TextField size='small' className='flex-1' id="pincode" type='number' label="pincode" variant="outlined" onChange={(e)=>setData({...data,pincode:e.target.value})} error={errors.pincode} helperText={errors.pincode}/>
     </div>
+    <div className='flex justify-between mt-2 mb-4'>
+        <div className='text-sm underline'>Existing user?  <Link to="/login" className='underline'>login</Link></div>
+        <div className='text-sm font-bold text-[#3523B5]'>Signup</div> 
+    </div>
+      </div>:
+      
+      <div className=' flex flex-col gap-2'>
+         <TextField className='flex-1' id="name" label="Username" variant="outlined" size='small'/>
+         <TextField className='flex-1' id="name" label="Work Email" variant="outlined" size='small'/>
+         <div className='flex gap-2 max-sm:flex-col'>
+          <TextField id="password" className='flex-1' label="password" size='small' variant="outlined" onChange={(e)=>setData({...data,password:e.target.value})} error={errors.password} helperText={errors.password}/>
+          <TextField id="password" className='flex-1' label="confirm password" size='small' variant="outlined" />
+        </div>
+         <TextField className='flex-1' id="name" label="Company Name" variant="outlined" size='small'/>
+         <TextField className='flex-1' id="name" label="Designation" variant="outlined" size='small'/>
+         <div className='flex justify-between mt-2 mb-4'>
+        <div className='text-sm underline'>Existing user?  <Link to="/login" className='underline'>login</Link></div>
+        <div className='text-sm font-bold text-[#3523B5]'>Signup</div> 
+    </div>
+      </div>}
+      
+                
+                
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
+    
   )
 }
 

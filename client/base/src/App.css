@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@font-face {
+  font-family: 'OpenSauceSans';
+  src: url('./assets/fonts/OpenSauceSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 *{
   margin: 0;
@@ -16,10 +22,29 @@
 
 }
 
+.glassmorph{
+  background: rgba( 255, 255, 255, 0.4 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 6px );
+-webkit-backdrop-filter: blur( 6px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
 .card-shadow {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 0 0 1px #eaeaea, 0 1px 3px 0 hsla(0, 0%, 56%, .2), 0 6px 13px 0 rgba(0, 0, 0, .04), 0 53px 32px 0 rgba(0, 0, 0, .02), inset 0 -2.4px 0 0 rgba(61, 61, 61, .04);
+}
+
+.card-shadow2{
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.card-shadow-lite {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.card-shadow-lite2 {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .fog-shadow::after{
@@ -484,4 +509,89 @@ li:nth-child(3) .input:focus {
 
 
 
+.projectscroll ::-webkit-scrollbar {
+  width: 3px;
+  
+}
+.projectscroll ::-webkit-scrollbar:hover {
+  opacity: 1;
+}
+
+.projectscroll ::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+  -webkit-border-radius: 60px;
+  border-radius: 60px;
+}
+
+.projectscroll ::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 60px;
+  border-radius: 60px;
+  background: #6d6d6d; 
+}
+.hidebar::-webkit-scrollbar {
+  display: none;
+}
+.hidebar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* CALENDER STYLES */
+input[type="date"] {
+  display:block;
+  position:relative;
+  padding:1rem 3.5rem 1rem 0.75rem;
+  
+  font-size:0.8rem;
+  font-family:"Inter";
+  
+  border:1px solid #8292a2;
+  border-radius:0.25rem;
+  background:
+    white
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='20' viewBox='0 0 20 22'%3E%3Cg fill='none' fill-rule='evenodd' stroke='%23688EBB' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' transform='translate(1 1)'%3E%3Crect width='18' height='18' y='2' rx='2'/%3E%3Cpath d='M13 0L13 4M5 0L5 4M0 8L18 8'/%3E%3C/g%3E%3C/svg%3E")
+    right 1rem
+    center
+    no-repeat;
+  
+  cursor:pointer;
+}
+input[type="date"]:focus {
+  outline:none;
+  border-color:#3acfff;
+  box-shadow:0 0 0 0.25rem rgba(0, 120, 250, 0.1);
+}
+
+::-webkit-datetime-edit {}
+::-webkit-datetime-edit-fields-wrapper {}
+::-webkit-datetime-edit-month-field:hover,
+::-webkit-datetime-edit-day-field:hover,
+::-webkit-datetime-edit-year-field:hover {
+  background:rgba(0, 120, 250, 0.1);
+}
+::-webkit-datetime-edit-text {
+  opacity:0;
+}
+::-webkit-clear-button,
+::-webkit-inner-spin-button {
+  display:none;
+}
+::-webkit-calendar-picker-indicator {
+  position:absolute;
+  width:2.5rem;
+  height:100%;
+  top:0;
+  right:0;
+  bottom:0;
+  
+  opacity:0;
+  cursor:pointer;
+  
+  color:rgba(0, 120, 250, 1);
+  background:rgba(0, 120, 250, 1);
+ 
+}
+
+input[type="date"]:hover::-webkit-calendar-picker-indicator { opacity:0.05; }
+input[type="date"]:hover::-webkit-calendar-picker-indicator:hover { opacity:0.15; }
 

@@ -6,7 +6,6 @@ import { TypeAnimation } from 'react-type-animation';
 import FadeText from './FadeText';
 import {motion, useInView} from 'framer-motion'
 import NumberCard from './NumberCard';
-import Timeline from './Timeline';
 import Display from './Display';
 import IconCards from './IconCards';
 import AskCard from './AskCard';
@@ -20,6 +19,9 @@ import mentor from "../../assets/mentor.svg"
 import Slider from './Slider';
 import Templates from './Templates';
 import Carausel from './Carausel';
+import TimeLine2 from './TimeLine2';
+import Features from './Features';
+import Carddemo from './Carddemo';
 
 const data={
   "For Job Seekers":["Job search with personalized recommendations.","Integrated profile for showcasing skills","Quick and simple online application process","Track applications and interview status.","Customizable resume templates for easy creation."],
@@ -34,7 +36,7 @@ export default function Landing() {
       <Nav/>
 
       <section>
-      <video 
+      {/* <video 
         autoPlay 
         loop 
         muted 
@@ -44,8 +46,8 @@ export default function Landing() {
       >
     
         Your browser does not support the video tag.
-      </video>
-      <div class="flex flex-col items-start px-1 pb-9 pt-[64px] md:items-center md:gap-3 md:pb-10 md:pt-[84px] md:text-center h-[90vh]">
+      </video> */}
+      <div class="flex flex-col items-start px-1 pb-9 pt-[64px] md:items-center md:gap-3 md:pb-10 md:pt-[84px] md:text-center h-[75vh]">
         <div class="flex flex-col md:flex-row ">
           <p class=" text-[36px] font-semibold leading-[44px] -tracking-[0.72px] text-[#272727] md:text-[60px] md:font-medium md:leading-[72px] md:-tracking-[3px] font-[inter]">Your All-In-One&nbsp;</p>
           <p class=" text-[36px] font-semibold leading-[44px] -tracking-[0.72px] text-[#272727]  md:text-[60px] md:font-medium  md:leading-[72px] md:-tracking-[3px]"> Platform for</p></div>
@@ -98,19 +100,24 @@ export default function Landing() {
       <NumberCard head="30%" sub="Cheaper"/>
       <NumberCard head="4x" sub="Results"/>
       <NumberCard head="50%" sub="Faster"/>
+      {/* <Carddemo/>
+      <Carddemo/>
+      <Carddemo/> */}
       </div>
       </div>
     </section>
 
     <section className='bg-[#EDF7FE] relative -top-[137px] pb-10 rounded-[36px]'>
     <div class=" flex flex-col gap-2 pb-8 md:gap-2 md:pb-[50px]"><p class="text-center text-[20px] font-semibold leading-[26px] -tracking-[0.8px] text-[#272727] md:text-[36px] md:font-medium md:leading-[50px]">Get Started in 3 Easy Steps</p><p class="text-center text-[12px] leading-[18px] text-[#5C5C5C] md:text-[16px] md:leading-[24px] md:-tracking-[0.176px] ">Follow these three simple steps to get started with Long Term Mentorship</p></div>
-    <Timeline/>
+    {/* <Timeline/> remove */}
+   <TimeLine2/>
+
     </section>
 
-    <section className='flex items-center flex-col gap-10 mb-20'>
+    <section className='flex items-center flex-col gap-10 mb-20 bg-[white]'>
     <div class="flex w-full flex-col items-center px-1 "><p class="text-center text-[20px] font-semibold leading-[24px] -tracking-[0.8px] text-[#272727] md:text-[36px] md:font-medium md:leading-[44px] md:-tracking-[1.44px]">No need to Struggle Alone Anymore</p><p class="mt-2 text-center text-[12px] leading-[16px]  text-[#5C5C5C] md:text-[16px] md:leading-[24px] md:-tracking-[0.176px]">Long term mentorship gets fully covered</p></div>
-      <div className='w-full flex flex-wrap items-center justify-center w-[75%]'>
-        {[1,2,3,4,5,6].map((item)=><IconCards/>)}
+      <div className='flex flex-wrap items-center justify-center '>
+        <Features/>
       </div>
     </section>
 
@@ -138,7 +145,7 @@ export default function Landing() {
 
       <section className='relative fog-shadow'>
         <div class="flex flex-col gap-2 border-b border-[#E4D4FF] pb-[20px] md:border-none md:pb-[60px] "><p class="text-center text-[20px] font-semibold leading-[24px] -tracking-[0.8px] text-[#272727] md:text-[36px] md:font-medium md:leading-[50px] md:-tracking-[1.44px]">Success Reviews & Testimonials</p><p class="text-center text-[12px] leading-4 text-[#5C5C5C]  md:text-[16px] md:leading-6 md:-tracking-[0.176px]">Get inspired by the real-life experiences of our mentee and their journey to success with Preplaced.</p></div>
-        <Slider/>
+        <Slider/> 
       </section>
 
       <section className='flex flex-col justify-center items-center bg-[#272727] rounded-[32px] p-10' >

@@ -4,20 +4,27 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client":"cd client && cd base && npm run dev",
-    "server":"cd server && npm start",
-    "clientdeps":"cd client && cd base && npm i",
-    "serverdeps":"cd server && npm i",
-    "devdepinstall":"npm install",
-    "dev":"concurrently \"npm run client\" \"npm run server\"",
-    "alldeps":"concurrently \"npm run devdepinstall\" \"npm run clientdeps\" \"npm run serverdeps\""
-
+    "client": "cd client && cd base && npm run dev",
+    "server": "cd server && npm start",
+    "clientdeps": "cd client && cd base && npm i",
+    "serverdeps": "cd server && npm i",
+    "devdepinstall": "npm install",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "alldeps": "concurrently \"npm run devdepinstall\" \"npm run clientdeps\" \"npm run serverdeps\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/joy": "^5.0.0-beta.48",
+    "@mui/lab": "^6.0.0-beta.10",
+    "@mui/material": "^6.1.2",
+    "@mui/x-date-pickers": "^7.19.0",
+    "concurrently": "^8.2.2",
+    "dayjs": "^1.11.13",
+    "react-datepicker": "^7.4.0"
   }
 }

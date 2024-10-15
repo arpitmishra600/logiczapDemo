@@ -41,8 +41,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["Free", "Basic", "Advanced", "Pro"],
         default: "Free"
+    }, 
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserProfile',
+    }, 
+    resetToken: {
+        type: String,
     },
-}, {timestamps: true});
+    resetTokenExpiry: {
+        type: Date,
+    }
+}, {timestamps: true}); 
 
 
 

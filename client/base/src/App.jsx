@@ -8,9 +8,9 @@ import Mainpage from './components/Mainpage'
 import Protected from './components/Protected'
 import {Toaster} from "react-hot-toast"
 import Landing from './pages/landing/Landing'
+import { Resume } from './pages/resume/Resume'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     
@@ -21,6 +21,7 @@ function App() {
             <Route path='/' element={<Landing/>}></Route>
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/mainpage' element={<Protected><Mainpage/></Protected>}></Route>
+            <Route path="/resume" element={<Protected><Resume/></Protected>}></Route>
           </Routes>
         </BrowserRouter>
         <Toaster

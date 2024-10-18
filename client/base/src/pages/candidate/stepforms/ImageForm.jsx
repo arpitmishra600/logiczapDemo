@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import Cropper from 'react-easy-crop';
-import { getCroppedImg } from '../../helpers/cropImage'; // Import the utility to crop image
+import { getCroppedImg } from '../../../helpers/cropImage'; // Import the utility to crop image
 
-export default function Uploaders() {
+export default function ImageForm() {
   const [profilePic, setProfilePic] = useState(null);
   const [coverPic, setCoverPic] = useState(null);
 

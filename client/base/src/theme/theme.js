@@ -1,27 +1,42 @@
 import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
-    typography: {
-      fontFamily: 'Inter, sans-serif',
-    },
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '& .MuiInputBase-input': {
-              color: 'black', // Text color
+  typography: {
+    fontFamily: 'OpenSauceSans',
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-input': {
+            color: 'black', // Text color
+          },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'black',
+            },
+            '&:hover fieldset': {
+              borderColor: 'black',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'black',
             },
           },
         },
       },
-      MuiInputLabel: {
-        styleOverrides: {
-          root: {
-            color: '#2D1BAB', // Label color
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: '#777579', // Default label/legend color
+          fontWeight: 500,
+          '&.Mui-focused': {
+            color: 'black', // Focused label/legend color
           },
         },
       },
-    }, MuiButton: {
+    },
+    MuiButton: {
       styleOverrides: {
         root: {
           backgroundColor: '#3523B5',
@@ -32,5 +47,5 @@ export const theme = createTheme({
         },
       },
     },
-
-  });
+  },
+});

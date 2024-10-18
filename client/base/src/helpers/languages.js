@@ -29,7 +29,6 @@ export const languages = [
     { title: "Persian" },
     { title: "French" },
     { title: "German" },
-    { title: "Spanish" },
-    { title: "Other Please Specify" }
+    { title: "Spanish" }
   ];
   

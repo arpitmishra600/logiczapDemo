@@ -7,11 +7,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { styled } from '@mui/material/styles';
-import { Autocomplete, Box, Checkbox, FormControlLabel, Radio, TextField } from '@mui/material';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Autocomplete, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import dayjs from 'dayjs';
 import { useMyContext } from '../context/Context';
 
 // Create a styled component for the DialogContentText
@@ -34,65 +31,152 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ExperienceDialogBox() {
-  const [open, setOpen] = React.useState(true);
-  const [selectedImage, setSelectedImage] = React.useState(null);
-  const [startDate, setStartDate] = React.useState(new Date());
-  const {expdialog,setExpdialog}=useMyContext()
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl); // Save the image URL to display
-    }
-  };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [data, setData] = React.useState({
+    companyName: '',
+    position: '',
+    startDate: dayjs().format('YYYY-MM-DD'),
+    endDate: dayjs().format('YYYY-MM-DD'),
+    currentlyWorking: false,
+  });
+
+  const [errors, setErrors] = React.useState({
+    companyName: '',
+    position: '',
+    dateError: '',
+  });
+
+  const { expdialog, setExpdialog, setFormData, formData } = useMyContext();
 
   const handleClose = () => {
     setExpdialog(false);
   };
 
+  const handleInputChange = (field, value) => {
+    setData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  const validateForm = () => {
+    let formIsValid = true;
+    let newErrors = {
+      companyName: '',
+      position: '',
+      dateError: '',
+    };
+
+    if (!data.companyName.trim()) {
+      newErrors.companyName = 'Company name cannot be empty';
+      formIsValid = false;
+    }
+
+    if (!data.position.trim()) {
+      newErrors.position = 'Position cannot be empty';
+      formIsValid = false;
+    }
+
+    if (dayjs(data.startDate).isAfter(dayjs(data.endDate)) && !data.currentlyWorking) {
+      newErrors.dateError = 'Start date cannot be after end date';
+      formIsValid = false;
+    }
+
+    setErrors(newErrors);
+    return formIsValid;
+  };
+
+  const handleSaveChanges = () => {
+    if (validateForm()) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        experience: [...(prevFormData.experience || []), data],
+      }));
+      handleClose();
+    }
+  };
+
   return (
     <React.Fragment>
-     
       <Dialog
-      
         open={expdialog}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <StyledDialogTitle>{"Add Experience"}</StyledDialogTitle>
+        <StyledDialogTitle>{'Add Experience'}</StyledDialogTitle>
         <DialogContent className='py-3 flex flex-col gap-2'>
-        <TextField id="name" sx={{mt:2}} label="Institute Name" variant="outlined" size='small'/>
-        <Autocomplete
+          {/* Company Name */}
+          <TextField
+          sx={{mt:1}}
+            id="companyName"
+            label="Company Name"
+            variant="outlined"
+            size="small"
+            value={data.companyName}
+            onChange={(e) => handleInputChange('companyName', e.target.value)}
+            error={!!errors.companyName}
+            helperText={errors.companyName}
+          />
 
-  options={[{label:"1"},{label:"1"},{label:"1"},{label:"1"}]}
-  size='small'
-  renderInput={(params) => <TextField {...params} label="Field of Study" />}
-/>
+          {/* Position */}
+          <Autocomplete
+            options={[{ label: "Software Engineer" }, { label: "Designer" }, { label: "Project Manager" }]}
+            size="small"
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Position"
+                error={!!errors.position}
+                helperText={errors.position}
+              />
+            )}
+            onChange={(event, newValue) => handleInputChange('position', newValue ? newValue.label : '')}
+            value={data.position || null}
+          />
 
-<div className='flex border w-[80%]'>
-      <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01" className='flex-1'></input>
-      <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01" className='flex-1'></input>
-      </div>
-      <FormControlLabel
-      control={
-        <Checkbox
-          // checked={checked}
-          // onChange={handleChange}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
-      }
-      label="Currently working"
-    />
+          {/* Date Range */}
+          <div className='flex gap-2'>
+            <TextField
+              type="date"  
+              value={data.startDate}
+              onChange={(e) => handleInputChange('startDate', e.target.value)}
+              error={!!errors.dateError}
+              helperText={errors.dateError}
+              className='flex-1'
+            />
+            <TextField
+              type="date"     
+              value={data.endDate}
+              onChange={(e) => handleInputChange('endDate', e.target.value)}
+              error={!!errors.dateError}
+              helperText={errors.dateError}
+              className='flex-1'
+              disabled={data.currentlyWorking} // Disable if currently working
+            />
+          </div>
+
+          {/* Currently Working Checkbox */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={data.currentlyWorking}
+                onChange={(e) => handleInputChange('currentlyWorking', e.target.checked)}
+              />
+            }
+            label="Currently working"
+          />
         </DialogContent>
-        
-      
-        <div className='flex justify-center'><button className="text-ourBlue underline cursor-pointer text-[inter] p-2 font-bold" onClick={{}}>save changes</button></div>
-        
+
+        <div className='flex justify-center'>
+          <button
+          className="text-ourBlue underline cursor-pointer text-[inter] p-2 font-bold"
+            onClick={handleSaveChanges}
+           
+          >
+            Save Changes
+          </button>
+        </div>
       </Dialog>
     </React.Fragment>
   );

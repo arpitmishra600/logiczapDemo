@@ -15,13 +15,13 @@ import ProjectForm from './stepforms/ProjectForm'
 import SkillForm from './stepforms/SkillForm'
 import WorkRolesForm from './stepforms/WorkRolesForm'
 import WorkLocation from './stepforms/WorkLocation'
-import LanguageForm from './stepforms/LanguageForm'
+import Languageform from './stepforms/Languageform'
 import ImageForm from './stepforms/ImageForm'
 import {AnimatePresence, motion} from "framer-motion"
 import { TypeAnimation } from 'react-type-animation'
 
 export default function CandidateForm() {
-  const form=[<NameForm/>,<AboutForm/>,<EducationForm/>,<ExperienceForm/>,<ProjectForm/>,<SkillForm/>,<WorkRolesForm/>,<WorkLocation/>,<LanguageForm/>,<ImageForm/>]
+  const form=[<NameForm/>,<AboutForm/>,<EducationForm/>,<ExperienceForm/>,<ProjectForm/>,<SkillForm/>,<WorkRolesForm/>,<WorkLocation/>,<Languageform/>,<ImageForm/>]
   const {formSteps, setFormSteps,enableNextButton,setEnableNextButton,formData} = useMyContext()
 
 

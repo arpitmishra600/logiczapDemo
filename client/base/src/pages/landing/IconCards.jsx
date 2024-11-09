@@ -3,7 +3,7 @@ import React from 'react'
 export default function IconCards({header,content}) {
   console.log(`/feature/${header}.svg`)
   return (
-    <div className='flex flex-col border p-5  bg-white w-[300px] h-[180px]'>
+    <div className='flex flex-col border p-5  bg-white w-[300px] h-[180px] hover:bg-[#007bff0c] transition-all duration-300 cursor-pointer ease-in'>
       <img src={`/feature/${header}.svg`} className='w-[30px]'/>
       <p class="-md:tracking-[0.176px] text-[16px] font-semibold leading-[24px] text-[#272727] md:text-[16px] mt-3 ">{header.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</p>
       <p class="mt-2 hidden text-sm leading-[20px] -tracking-[0.08px] text-[#5C5C5C] md:block max-w-[250px]">{content}</p>

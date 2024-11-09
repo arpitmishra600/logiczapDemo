@@ -1,14 +1,24 @@
 import React from 'react'
-
+import { motion } from 'framer-motion';
 export default function Chips({label}) {
   return (
-    <div className='flex justify-between px-8 py-3 items-center'>
+    <motion.div 
+    initial={{ x: 0 }}
+      whileHover={{
+        x: 10, // Amount of slide on hover
+        transition: {
+          type: "spring",
+          stiffness: 300, // Controls the "bounciness" of the elastic effect
+          damping: 20, // Controls how quickly the animation settles
+        },
+      }}
+    className='flex justify-between px-8 py-3 items-center cursor-pointer'>
             <div className='flex items-center gap-3 font-semibold'>
             {svgs.sideArrow}
               {label}
             </div>
             
-    </div>
+    </motion.div>
   )
 }
 

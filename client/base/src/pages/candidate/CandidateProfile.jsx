@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function CandidateProfile() {
   return (
-    <div className='flex h-screen w-screen justify-center pt-10  gap-5 bg-[#F5F5F5] font-[inter] overflow-auto max-md:flex-col'>
+    <div className='flex justify-center pt-10  gap-5 bg-[#F5F5F5] font-[inter] overflow-auto max-md:flex-col'>
       <div className='flex gap-3 flex-col w-[70%]' >
           <section className='bg-[white] card-shadow-lite2 relative rounded-[14px]'>
            <div className='relative items-center'>
@@ -32,7 +32,7 @@ export default function CandidateProfile() {
                 <div className='flex gap-1 items-center justify-center'><img src='/add.svg' className='w-[30px]'/><img src='/edit.svg' className='w-[30px]'/></div>
             </div>
           <div className='text-sm'>{"Lorem ipsum dolor sit amet consectetur adipisicing elit. <br/>Iure illo dolorem est quasi doloribus voluptates facere velit fuga iusto. Vero officia quasi similique sit itaque dolores sed.<br/><br/> Nemo dolorem asperiores sapiente natus minus eligendi doloremque, maxime neque iusto modi quae. Nesciunt ipsa perferendis voluptate at ducimus nostrum alias numquam ab, nemo culpa quibusdam!<br/> Corrupti optio tempora iure, reprehenderit voluptatum nihil quae magnam earum libero deserunt sapiente nesciunt unde dignissimos quaerat accusamus. Sed neque quaerat atque, esse quasi nam facilis, quidem ducimus itaque, aut dolores inventore voluptate ullam quam velit ea.<br/><br/>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates odit obcaecati exercitationem error aperiam sunt nemo maxime commodi, quaerat culpa illo maiores non omnis voluptatibus, cum ducimus. Beatae, alias officia consequuntur facilis totam atque aspernatur eligendi explicabo consequatur fugit saepe.".slice(0,600)+" ..."}</div>
-          <button className='bg-[#EEEEEE] text-xs py-1 font-bold tracking-wide px-3 rounded-[7px] font-[500] absolute bottom-6'>Read More...</button>
+          <button className='bg-[#EEEEEE] text-xs py-1  tracking-wide px-3 rounded-[7px] font-[500] absolute bottom-6'>Read More...</button>
           </section>
 
           <div className='flex gap-3'>

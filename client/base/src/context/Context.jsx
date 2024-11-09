@@ -12,6 +12,8 @@ const Context = ({ children }) => {
     const [proDialog,setProDialog]=useState(false)
     const [enableNextButton,setEnableNextButton]=useState(true)
 
+    //singup form data
+
     const [formData,setFormData]=useState({
         firstName:"",lastName:"",about:"",
         education:[],
@@ -25,6 +27,9 @@ const Context = ({ children }) => {
         coverPic:""
     })
 
+    //dashboard contexts
+    const [selectedCandidateMenu,setSelectedCandidateMenu]=useState("profile")
+    const [selectedRecruiterMenu,setSelectedRecruiterMenu]=useState("profile")
    
     useEffect(() => {
         if (formData.firstName.length==0){
@@ -38,7 +43,7 @@ const Context = ({ children }) => {
     
     
     return (
-        <MyContext.Provider value={{poppup, setPoppup,formSteps, setFormSteps,expdialog,setExpdialog,edudialog,setEdudialog,proDialog,setProDialog,formData,setFormData,enableNextButton,setEnableNextButton}}>
+        <MyContext.Provider value={{poppup, setPoppup,formSteps, setFormSteps,expdialog,setExpdialog,edudialog,setEdudialog,proDialog,setProDialog,formData,setFormData,enableNextButton,setEnableNextButton,selectedCandidateMenu,setSelectedCandidateMenu,selectedRecruiterMenu,setSelectedRecruiterMenu}}>
             {children}
         </MyContext.Provider>
     );

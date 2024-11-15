@@ -179,17 +179,31 @@ exports.deleteSkill = async (req, res) => {
     }
 }
 
+exports.updateName = async (req, res) => {
+    const {name} = req.body;
+    const id = req.user.profile;
+
+    try {
+        const profile = await UserProfile.findOneAndUpdate({_id: id}, {name}, {new: true});
+        return res.status(200).json({message: "Name updated successfully", profile});
+    } catch (error) {
+        return res.status(500).json({message: "Error updating name"});
+    }
+}
+
 exports.updateProfile = async (req, res) => {
-    const {education, positionsOfResponsibility, skills, workExperience} = req.body;
+    const {education, positionsOfResponsibility, skills, workExperience, name} = req.body;
     const id = req.user.profile;
     
     try {
         const profile = await UserProfile.findOneAndUpdate({_id: id}, {
+            name,
             education,
             positionsOfResponsibility,
             skills,
             workExperience
         }, {new: true});
+        
         return res.status(200).json({message: "Profile updated successfully", profile});
     } catch (error) {
         res.status(500).json({message: "Error updating profile"});

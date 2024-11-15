@@ -30,6 +30,9 @@ const skillsSchema = new Schema({
 });
 
 const userProfileSchema = new Schema({
+  name: {
+    type: String,
+  },
   education: [educationSchema],
   workExperience: [workExperienceSchema],
   positionsOfResponsibility: [positionOfResponsibilitySchema],

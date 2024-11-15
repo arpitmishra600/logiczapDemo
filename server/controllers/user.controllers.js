@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const z = require("zod");
 const Otp = require("../models/otp.models")
 const UserProfile = require("../models/userProfile.models");
+const {uploadOnCloudinary} = require("../utils/cloudinary");
 
 const options = {
   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
@@ -25,7 +26,7 @@ const passwordSchema = z.string()
   });
 
 const userSchema = z.object({
-    name: z.string().min(3).max(50),
+    username: z.string().min(3).max(50),
     email: z.string().email({message: "Invalid email"}),
     password: passwordSchema,
     country: z.string(),
@@ -100,10 +101,10 @@ exports.sendOtpHandler = async (req, res) => {
 }
 
 exports.signupHandler = async (req, res) => {
-    const {name, email, password, country, state, city, pincode, phoneNumber, otp} = req.body;
+    const {username, email, password, country, state, city, pincode, phoneNumber, otp} = req.body;
 
     try {
-        if (!name || !email || !password || !country || !state || !city || !pincode || !phoneNumber) {
+        if (!username || !email || !password || !country || !state || !city || !pincode || !phoneNumber) {
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
@@ -118,7 +119,7 @@ exports.signupHandler = async (req, res) => {
         }
         
         const existingUser = await User.findOne({
-          $or: [{email: email}, {phoneNumber: phoneNumber}]
+          $or: [{email: email}, {phoneNumber: phoneNumber}, {username: username}]
         })
 
         if (existingUser) {
@@ -135,6 +136,7 @@ exports.signupHandler = async (req, res) => {
         const customId = await generateCustomId(User.collection);
 
         const profile = await UserProfile.create({
+            name: "",
             education: [],
             workExperience: [],
             positionsOfResponsibility: [],
@@ -143,7 +145,7 @@ exports.signupHandler = async (req, res) => {
         
         const user = await User.create({
           _id: customId,
-          name,
+          username,
           email,
           password: hashedPassword,
           country,
@@ -156,7 +158,7 @@ exports.signupHandler = async (req, res) => {
 
       const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
 
-    return res.status(201).cookie("token", token, options).json({message: "User created", user: user, token: token});
+      return res.status(201).cookie("token", token, options).json({message: "User created", user: user, token: token});
     } catch (error) {
         console.log(error);
         return res.status(400).json({message: "Error creating user"});
@@ -171,7 +173,9 @@ exports.loginHandler = async (req, res) => {
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
-        const user = await User.findOne({email: email});
+        const user = await User.findOne({
+            $or: [{email: email}, {username: email}]
+        });
 
         if (!user) {
             return res.status(400).json({message: "User does not exist"});
@@ -201,35 +205,21 @@ exports.logoutHandler = async (req, res) => {
     }
 }
 
-exports.resetPlanHandler = async (req, res) => {
-    try {
-        const user = req.user;
-        user.plan = "Free";
-        await user.save();
-        return res.status(200).json({message: "Plan reset to Free"});
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({message: "Error resetting plan"});    
-    }
-}
-
 exports.getFullUser = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).populate("profile");
+        const user = await User.findById(req.user._id).populate("profile");
         return res.status(200).json({user});
     } catch (error) {
         return res.status(400).json({message: "Error getting user"});
     }
 }
 
-exports.searchUser = async (req, res) => {
-    const filter = req.query.filter || "";
+exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({name: {$regex: filter, $options: "i"}}).select("name email _id");
-        return res.status(200).json({users})
+        const users = await User.find().populate("profile");
+        return res.status(200).json({users});
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({message: "Error fetching users"});
+        return res.status(400).json({message: "Error getting users"});
     }
 }
 
@@ -256,4 +246,70 @@ exports.searchUserBySkills = async (req, res) => {
     }
 }
 
+exports.updateProfileImage = async (req, res) => {
+    const profileImagePath = req.file?.path;
+
+    try {
+
+        if (!profileImagePath) {
+            return res.status(500).json({message: "Please provide image"});
+        }
+
+        const image = await uploadOnCloudinary(profileImagePath);
+
+        if (!image.url) {
+            return res.status(500).json({message: "Error uploading image"});
+        }
+
+        const user = await User.findByIdAndUpdate(req.user._id, {profileImage: image.url}, {new: true}).select("-password");
+
+        return res.status(200).json({message: "Profile image updated", user});
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Error updating profile image"});    
+    }
+}
+
+exports.updateCoverImage = async (req, res) => {
+    const coverImagePath = req.file?.path;
+
+    try {
+
+        if (!coverImagePath) {
+            return res.status(500).json({message: "Please provide image"});
+        }
+
+        const image = await uploadOnCloudinary(coverImagePath);
+
+        if (!image.url) {
+            return res.status(500).json({message: "Error uploading image"});
+        }
+
+        const user = await User.findByIdAndUpdate(req.user._id, {coverImage: image.url}, {new: true}).select("-password");
+
+        return res.status(200).json({message: "Cover image updated", user});
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Error updating Cover image"});    
+    }
+}
+
+exports.getLastSeen = async (req, res) => {
+    const {userId} = req.body;
+    
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+
+        return res.json({lastSeen: user.lastSeen});
+    } catch (error) {
+        console.log("Error fetching last seen", error);
+        res.status(500).json({message: "Internal server error"})
+        
+    }
+}
 

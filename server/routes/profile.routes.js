@@ -1,5 +1,5 @@
 const express = require('express');
-const { addEducation, addWorkExperience, addPositionOfResponsibility, addSkill, updateEducation, updateWorkExperience, updatePositionOfResponsibility, updateSkill, deleteEducation, deleteWorkExperience, deletePositionOfResponsibility, deleteSkill, updateProfile } = require('../controllers/userProfile.controllers');
+const { addEducation, addWorkExperience, addPositionOfResponsibility, addSkill, updateEducation, updateWorkExperience, updatePositionOfResponsibility, updateSkill, deleteEducation, deleteWorkExperience, deletePositionOfResponsibility, deleteSkill, updateProfile, updateName } = require('../controllers/userProfile.controllers');
 const { verifyjwt } = require('../middleware/auth');
 const router = express.Router();
 
@@ -17,6 +17,7 @@ router.post("/updateEducation", verifyjwt, updateEducation);
 router.post("/updateExperience", verifyjwt, updateWorkExperience);
 router.post("/updateResponsibility", verifyjwt, updatePositionOfResponsibility);
 router.post("/updateSkills", verifyjwt, updateSkill);
+router.post("/updateName", verifyjwt, updateName);
 
 // delete profile
 router.post("/deleteEducation", verifyjwt, deleteEducation);

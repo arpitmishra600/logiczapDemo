@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    name: {
+    username: {
         type: String,
         required: true,
     },
@@ -37,20 +37,38 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    plan: {
+    profileImage: {
         type: String,
-        enum: ["Free", "Basic", "Advanced", "Pro"],
-        default: "Free"
-    }, 
+    },
+    coverImage: {
+        type: String,
+    },
+    balance: {
+        type: Number,
+        default: 0
+    },
     profile: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserProfile',
-    }, 
+    },
+    sessionHistory: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Session'
+        }
+    ], 
     resetToken: {
         type: String,
     },
     resetTokenExpiry: {
         type: Date,
+    },
+    socketId: {
+        type: String
+    }, 
+    lastSeen: {
+        type: Date,
+        default: null
     }
 }, {timestamps: true}); 
 

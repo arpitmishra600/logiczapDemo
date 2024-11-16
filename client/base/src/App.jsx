@@ -13,6 +13,7 @@ import CandidateForm from './pages/candidate/CandidateForm'
 import { Resume } from './pages/resume/Resume'
 import CandidateDashboard from './pages/dashboards/candidate/CandidateDashboard'
 import RecruiterDashboard from './pages/dashboards/recruiter/RecruiterDashboard'
+import ChatApp from './components/ChatApp';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/mainpage' element={<Protected><Mainpage/></Protected>}></Route>
             <Route path="/resume" element={<Protected><Resume/></Protected>}></Route>
+            <Route path="/chatApp" element={<ChatApp/>}></Route>
           </Routes>
         </BrowserRouter>
         <Toaster

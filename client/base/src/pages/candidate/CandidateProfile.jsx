@@ -1,9 +1,18 @@
 import { Avatar, Chip } from '@mui/material'
 import React from 'react'
+import { useMyContext } from '../../context/Context'
+import AboutEdit from '../../modals/candidate/dashboard/AboutEdit'
+import ProjectsEdit from '../../modals/candidate/dashboard/ProjectsEdit'
+import SkillEdit from '../../modals/candidate/dashboard/SkillsEdit'
+import Skills from './profile/Skills'
+import ExperienceEdit from '../../modals/candidate/dashboard/ExperienceEdit'
+import EducationEdit from '../../modals/candidate/dashboard/EducationEdit'
+import AdditionalEdit from '../../modals/candidate/dashboard/AdditionalEdit'
 
 
 
 export default function CandidateProfile() {
+  const {editAbout,setEditAbout,editProjects,setEditProjects,editSkills,setEditSkills,editExperience,setEditExperience,editEducation,setEditEducation,editAdditional,setEditAdditional}=useMyContext()
   return (
     <div className='flex justify-center pt-10  gap-5 bg-[#F5F5F5] font-[inter] overflow-auto max-md:flex-col'>
       <div className='flex gap-3 flex-col w-[70%]' >
@@ -29,7 +38,7 @@ export default function CandidateProfile() {
           <section id='aboutme' className='bg-[white] card-shadow-lite2 relative rounded-[14px] p-5 pb-14'>
           <div className='flex justify-between items-center w-[100%] mb-3'>
                 <div className='flex justify-between'><div className='font-[600] text-xl tracking-wide'>About Me</div></div>
-                <div className='flex gap-1 items-center justify-center'><img src='/add.svg' className='w-[30px]'/><img src='/edit.svg' className='w-[30px]'/></div>
+                <div onClick={()=>setEditAbout(!editAbout)} className='flex gap-1 items-center justify-center cursor-pointer'><img src='/edit.svg' className='w-[30px]'/></div>
             </div>
           <div className='text-sm'>{"Lorem ipsum dolor sit amet consectetur adipisicing elit. <br/>Iure illo dolorem est quasi doloribus voluptates facere velit fuga iusto. Vero officia quasi similique sit itaque dolores sed.<br/><br/> Nemo dolorem asperiores sapiente natus minus eligendi doloremque, maxime neque iusto modi quae. Nesciunt ipsa perferendis voluptate at ducimus nostrum alias numquam ab, nemo culpa quibusdam!<br/> Corrupti optio tempora iure, reprehenderit voluptatum nihil quae magnam earum libero deserunt sapiente nesciunt unde dignissimos quaerat accusamus. Sed neque quaerat atque, esse quasi nam facilis, quidem ducimus itaque, aut dolores inventore voluptate ullam quam velit ea.<br/><br/>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates odit obcaecati exercitationem error aperiam sunt nemo maxime commodi, quaerat culpa illo maiores non omnis voluptatibus, cum ducimus. Beatae, alias officia consequuntur facilis totam atque aspernatur eligendi explicabo consequatur fugit saepe.".slice(0,600)+" ..."}</div>
           <button className='bg-[#EEEEEE] text-xs py-1  tracking-wide px-3 rounded-[7px] font-[500] absolute bottom-6'>Read More...</button>
@@ -39,7 +48,7 @@ export default function CandidateProfile() {
             <section id='projects' className='flex-1 bg-[white] w-[700px] border flex flex-col p-5 card-shadow-lite2 rounded-[14px] max-h-[400px]'>
               <div className='flex justify-between w-[100%] mb-3'>
               <div className='flex justify-between'><div className='font-[600] text-xl tracking-wide'>Projects</div></div>
-                  <div className='flex gap-1 items-center justify-center'><img src='/add.svg' className='w-[30px]'/><img src='/edit.svg' className='w-[30px]'/></div>
+                  <div onClick={()=>setEditProjects(!editProjects)} className='flex gap-1 items-center justify-center cursor-pointer'><img src='/edit.svg' className='w-[30px]'/></div>
               </div>
   
               <div className='overflow-hidden hover:overflow-auto  flex flex-col gap-5 projectscroll pr-3'>
@@ -57,11 +66,11 @@ export default function CandidateProfile() {
             <section id='skills' className=' flex-[0.7] bg-[white] w-[700px] border flex flex-col p-5 card-shadow-lite2 rounded-[14px] max-h-[400px] '>
               <div className='flex justify-between w-[100%] mb-3'>
               <div className='flex justify-between'><div className='font-[600] text-xl tracking-wide'>Skils</div></div>
-                  <div className='flex gap-1 items-center justify-center'><img src='/add.svg' className='w-[30px]'/><img src='/edit.svg' className='w-[30px]'/></div>
+                  <div onClick={()=>setEditSkills(!editSkills)} className='flex gap-1 items-center justify-center'><img src='/edit.svg' className='w-[30px]'/></div>
               </div>
 
-              <div className='overflow-hidden hover:overflow-auto  flex flex-col gap-5 projectscroll pr-3'>
-              {[1,2,3,5,5,67,7,8].map((item)=><div className='border-b'>HTML</div>)}
+              <div className='overflow-hidden hover:overflow-auto pr-3'>
+              <Skills/>
               </div>
             </section>
           </div>
@@ -69,7 +78,7 @@ export default function CandidateProfile() {
           <section id='experience' className='bg-[white] rounded-[12px] border flex flex-col p-5 card-shadow-lite2'>
             <div className='flex justify-between w-[100%] mb-5'>
             <div className='flex justify-between'><div className='font-[600] text-xl tracking-wide'>Experience</div></div>
-                <div className='flex gap-1 items-center justify-center'><img src='/add.svg' className='w-[30px]'/><img src='/edit.svg' className='w-[30px]'/></div>
+                <div onClick={()=>setEditExperience(!editExperience)} className='flex gap-1 items-center justify-center'><img src='/edit.svg' className='w-[30px]'/></div>
             </div>
 
             <div className='flex gap-5'>
@@ -85,7 +94,7 @@ export default function CandidateProfile() {
           <section id='education' className='bg-[white] border flex flex-col p-5 card-shadow-lite2 rounded-[14px]'>
             <div className='flex justify-between w-[100%] mb-5'>
             <div className='flex justify-between'><div className='font-[600] text-xl tracking-wide'>Education</div></div>
-                <div className='flex gap-1 items-center justify-center'><img src='/add.svg' className='w-[30px]'/><img src='/edit.svg' className='w-[30px]'/></div>
+                <div onClick={()=>setEditEducation(!editEducation)} className='flex gap-1 items-center justify-center'><img src='/edit.svg' className='w-[30px]'/></div>
             </div>
 
             <div className='flex gap-5'>
@@ -108,7 +117,7 @@ export default function CandidateProfile() {
       <div id='sider' className="w-[300px] flex flex-col gap-2 ">
         <section className='bg-white p-5 card-shadow-lite2 rounded-[12px] '>
             
-                <div className='flex justify-between mb-2'><div className='flex justify-between'><div className='font-[600] text-xl'>Languages Known</div></div><img src='/edit.svg' className='w-[30px]'/></div>
+                <div className='flex justify-between mb-2'><div className='flex justify-between'><div className='font-[600] text-xl'>Languages Known</div></div><img onClick={()=>setEditAdditional(!editAdditional)}  src='/edit.svg' className='w-[30px]'/></div>
                 <div className='flex gap-1 border-b pb-5 mb-3'>
                 <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Hindi</span>
                 <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>English</span>
@@ -138,7 +147,12 @@ export default function CandidateProfile() {
           <div className='flex justify-between mb-4'><div className='font-[600] text-xl '>Top Recruiters</div></div>
           {[1,2,3,4,5,6].map((item)=><div className='flex gap-3 mb-3'><Avatar/><div><div className='text-md font-[500]'>Company Name</div> <div className='text-xs font-[500] text-[gray]'>software</div></div></div>)}
         </section>
-      
+      <AboutEdit/>
+      <ProjectsEdit/>
+      <SkillEdit/>
+      <ExperienceEdit/>
+      <EducationEdit/>
+      <AdditionalEdit/>
       </div>
     </div>
   )

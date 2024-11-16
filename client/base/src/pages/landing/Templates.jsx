@@ -1,6 +1,6 @@
 import React from 'react'
 import Marquee from 'react-fast-marquee'
-import Carausel from './Carausel'
+
 import { TypeAnimation } from 'react-type-animation'
 
 export default function Templates() {

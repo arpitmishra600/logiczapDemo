@@ -5,7 +5,8 @@ import { Box, LinearProgress } from '@mui/material'
 const data={
   signup:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut iure eum aspernatur exercitationem a tempore corrupti eos amet soluta mollitia architecto animi ea esse fuga fugit, sunt libero culpa enim  possimus consequatur recusandae vel? Aperiam at rerum ad quam Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, odit! lorem20",
   build:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut iure eum aspernatur exercitationem a tempore corrupti eos amet soluta mollitia architecto animi ea esse fuga fugit, sunt libero culpa enim perspiciatis possimus consequatur recusandaeet consectetur adipisicing elit. Natus, odit! lorem20",
-  download:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut iure eum aspernatur exercitationem a tempore corrupti eos amet soluta mollitia architecto animi ea esse fuga fugit, sunt libero culpa enim perspiciatis possimus consequatur recusandae vel? Aperiam at rerum ad quam Lorem ipsum dolor sit, amet consectetur adipisicing elit. "
+  download:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut iure eum aspernatur exercitationem a tempore corrupti eos amet soluta mollitia architecto animi ea esse fuga fugit, sunt libero culpa enim perspiciatis possimus consequatur recusandae vel? Aperiam at rerum ad quam Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
+  downloa:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut iure eum aspernatur exercitationem a tempore corrupti eos amet soluta mollitia architecto animi ea esse fuga fugit, sunt libero culpa enim perspiciatis possimus consequatur recusandae vel? Aperiam at rerum ad quam Lorem ipsum dolor sit, amet consectetur adipisicing elit. "
 }
 export default function TimeLine2() {
   const [selectedCard,setSelectedCard]=useState("signup")
@@ -13,7 +14,7 @@ export default function TimeLine2() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSelectedIndex((prevIndex) => (prevIndex === 2 ? 0 : prevIndex + 1));
+      setSelectedIndex((prevIndex) => (prevIndex === 3 ? 0 : prevIndex + 1));
     }, 8500);
 
 
@@ -32,7 +33,7 @@ export default function TimeLine2() {
         <div id="" className='flex gap-3 font-bold'>
           {Object.keys(data).map((item,index)=><div className={`flex-1 flex gap-2 flex-col bg-white border-x border-t ${item==selectedCard?"bg-white":"opacity-50"} p-4 rounded-t text-xl` }onClick={()=>{setSelectedCard(item);setSelectedIndex(index)}}>{`${index+1}. ${item}`}{item==selectedCard?<Progress/>:<LinearProgress variant="determinate" sx={{height:2}}  />}</div>)}
         </div>
-        <div className='bg-white pb-5 flex justify-between border-x border-b'>
+        <div className='bg-white pb-5 flex justify-between border-x border-b px-10'>
           <div id="info" className='flex-1 p-10'>
             <div className='font-bold text-[#020617] text-xl mb-2'>Lorem, ipsum dolor.</div>
             <div className=''>{data[selectedCard]}</div>

@@ -30,20 +30,25 @@ const Context = ({ children }) => {
     //dashboard contexts
     const [selectedCandidateMenu,setSelectedCandidateMenu]=useState("profile")
     const [selectedRecruiterMenu,setSelectedRecruiterMenu]=useState("profile")
+
+    //modal contexts
+    const [editAbout,setEditAbout]=useState(false)
+    const [editProjects,setEditProjects]=useState(false)
+    const [editSkills,setEditSkills]=useState(false)
+    const [editExperience,setEditExperience]=useState(false)
+    const [editEducation,setEditEducation]=useState(false)
+    const [editAdditional,setEditAdditional]=useState(false)
    
     useEffect(() => {
-        if (formData.firstName.length==0){
-          setEnableNextButton(false)
-        }
-       
-        console.log(formData.firstName)
-      
+    console.log(editAbout)
         
-      }, [formData.firstName])
+      }, [editAbout])
     
     
     return (
-        <MyContext.Provider value={{poppup, setPoppup,formSteps, setFormSteps,expdialog,setExpdialog,edudialog,setEdudialog,proDialog,setProDialog,formData,setFormData,enableNextButton,setEnableNextButton,selectedCandidateMenu,setSelectedCandidateMenu,selectedRecruiterMenu,setSelectedRecruiterMenu}}>
+        <MyContext.Provider value={{poppup, setPoppup,formSteps, setFormSteps,expdialog,setExpdialog,edudialog,setEdudialog,proDialog,setProDialog,formData,setFormData,enableNextButton,setEnableNextButton,selectedCandidateMenu,setSelectedCandidateMenu,selectedRecruiterMenu,setSelectedRecruiterMenu,
+            editAbout,setEditAbout,editProjects,setEditProjects,editSkills,setEditSkills,editExperience,setEditExperience,editEducation,setEditEducation,editAdditional,setEditAdditional
+        }}>
             {children}
         </MyContext.Provider>
     );

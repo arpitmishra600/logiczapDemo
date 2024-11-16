@@ -20,9 +20,68 @@ export default function Display() {
             {["Engineering","Data Science","Business","Product"].map((item)=><Chip label={item} sx={{px:0.5,fontSize:"0.7rem",fontWeight:500,background:select==item?"#007AFF":"",color:select==item?"white":"black"}} onClick={()=>setSelect(item)}/>)}
           </div>
           <div className='flex flex-wrap gap-5 justify-center py-10 w-[80%]'>
-           {[1,2,3,4,5,6].map((item)=><AluminiCard/>)}
+           {Object.keys(data).map((item)=><AluminiCard data={data[item]} name={item}/>)}
           </div>
     </motion.div>
   )
 }
 
+
+const data={
+  first_last1:{
+    profilepic:"",
+    rating:5,
+    member:"elite",
+    desig:"Quality Assurance Engineer II",
+    exp:5,
+    company:"Google",
+  },
+  first_last2:{
+    profilepic:"",
+    rating:4,
+    member:"elite",
+    desig:"SAP ABAP",
+    exp:3,
+    company:"Facebook",
+  },
+  first_last3:{
+    profilepic:"",
+    rating:5,
+    member:"elite",
+    desig:"Software Tester",
+    exp:10,
+    company:"Meta",
+  },
+  first_last4:{
+    profilepic:"",
+    rating:5,
+    member:"pro",
+    desig:"UI/UX Designer",
+    exp:6,
+    company:"Linkedin",
+  },
+  first_last5:{
+    profilepic:"",
+    rating:4,
+    member:"pro",
+    desig:"Data Analyst",
+    exp:3,
+    company:"Brave",
+  },
+  first_last6:{
+    profilepic:"",
+    rating:4,
+    member:"pro",
+    desig:"DevOps III",
+    exp:9,
+    company:"HP",
+  },
+  first_last6:{
+    profilepic:"",
+    rating:4,
+    member:"pro",
+    desig:"DevOps III",
+    exp:9,
+    company:"HP",
+  },
+}

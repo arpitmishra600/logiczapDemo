@@ -2,7 +2,7 @@ import React from 'react'
 import BlackButton from './BlackButton'
 import { Avatar } from '@mui/material'
 import {motion} from "framer-motion"
-export default function AluminiCard() {
+export default function AluminiCard({data,name}) {
   return (
     <motion.div  whileHover={{ scale: 1.03 }}
     transition={{
@@ -10,12 +10,14 @@ export default function AluminiCard() {
       stiffness: 300,  // Controls the spring stiffness
       damping: 15,     // Controls the spring damping (bounciness)
       duration: 0.3    // Optional: Controls the duration of the effect
-    }} className='w-[300px] border relative flex flex-col gap-[0.5] p-5 rounded-[12px] card-shadow'>
-    <Avatar src='' sx={{width:60,height:60}}/>
-    <p class="line-clamp-1 text-[13px] font-semibold leading-5 text-[#272727]  md:text-[17px]  md:leading-[26px] py-3">Anarghya Kini</p>
-    <p class=" line-clamp-1 text-[10px] leading-[18px] text-[#5C5C5C] md:text-[14px] md:leading-[18px] ">Quality Assurance Engineer II</p>
-    <p class="line-clamp-1 hidden text-sm leading-[21px] text-[#5C5C5C] md:block">7 Years of Experience</p>
-    <div className='flex gap-2 items-center py-3'>{svgs.google}Google</div>
+    }} className=' overflow-hidden  w-[300px] border relative flex flex-col gap-[0.5] p-5 rounded-[12px] card-shadow'>
+    <Avatar src={data.profilepic} sx={{width:60,height:60}}/>
+    
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[yellow] to-transparent opacity-10 animate-shine"></div>
+    <p class="line-clamp-1 text-[13px] font-semibold leading-5 text-[#272727]  md:text-[17px]  md:leading-[26px] py-3 flex w-full justify-between ">{name} <div className={`border ${data.member=="elite"?"border-[gold] text-[#FFA000]":"border-[#50C878] text-[#50C878]"} rounded-[32px] text-xs px-4 flex items-center tracking-wider  font-bold`}>{data.member=="elite"?svgs.crown:svgs.gem}{data.member}</div></p>
+    <p class=" line-clamp-1 text-[10px] leading-[18px] text-[#5C5C5C] md:text-[14px] md:leading-[18px] ">{data.desig}</p>
+    <p class="line-clamp-1 hidden text-sm leading-[21px] text-[#5C5C5C] md:block">{data.exp} Years of Experience</p>
+    <div className='flex gap-2 items-center py-3'>{svgs.google}{data.company}</div>
     <div class="absolute right-5 top-5 gap-1 rounded-md bg-white px-1 py-0.5 md:flex md:px-2 md:py-1"><svg width="18" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="scale-90 text-yellow-400 md:h-[21px] md:w-[21px]"><path d="m10.633 1.63 2.103 4.797a1.1 1.1 0 0 0 .91.654l5.122.46c.58.084.811.795.391 1.204l-3.86 3.243a1.099 1.099 0 0 0-.368 1.073l1.122 5.252a.706.706 0 0 1-1.025.743l-4.472-2.619a1.099 1.099 0 0 0-1.112 0l-4.472 2.618a.707.707 0 0 1-1.025-.744l1.122-5.252a1.102 1.102 0 0 0-.37-1.073L.84 8.746a.707.707 0 0 1 .39-1.204l5.124-.46a1.101 1.101 0 0 0 .91-.654l2.102-4.797a.707.707 0 0 1 1.268-.001Z" fill="currentColor"></path><path d="m10.48 6.714-.357-3.534c-.014-.197-.055-.535.26-.535.25 0 .387.52.387.52l1.069 2.838c.403 1.08.237 1.45-.152 1.669-.447.25-1.106.055-1.208-.958Z" fill="#FFFF8D"></path><path d="m14.887 11.673 3.065-2.392c.152-.126.425-.328.206-.558-.173-.18-.642.08-.642.08l-2.683 1.049c-.8.276-1.33.685-1.378 1.201-.06.688.557 1.217 1.432.62Z" fill="#F4B400"></path></svg><p class="text-[15px] font-semibold -tracking-[0.084] text-[#272727] md:pt-[2px]">5.0</p></div>
     <BlackButton title="Book a FREE Trial"/>
     </motion.div>
@@ -23,4 +25,6 @@ export default function AluminiCard() {
 }
 const svgs={
     google:<svg width="15px" height="15px" viewBox="-3 0 262 262" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4"></path><path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853"></path><path d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" fill="#FBBC05"></path><path d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" fill="#EB4335"></path></g></svg>,
+    crown:<svg className='mr-1' version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 128 128" enableBackground="new 0 0 128 128" xmlSpace="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#FFA000" d="M112,36c-6.629,0-12,5.375-12,12c0,1.68,0.352,3.273,0.973,4.727L84,60L69.801,34.445C73.48,32.391,76,28.508,76,24c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,4.508,2.52,8.391,6.199,10.445L44,60l-16.973-7.273C27.648,51.273,28,49.68,28,48c0-6.625-5.371-12-12-12S4,41.375,4,48s5.371,12,12,12c0.93,0,1.822-0.133,2.695-0.328L28,100v8c0,4.422,3.582,8,8,8h56c4.418,0,8-3.578,8-8v-8l9.309-40.328C110.176,59.875,111.07,60,112,60c6.629,0,12-5.375,12-12S118.629,36,112,36z M64,20c2.207,0,4,1.797,4,4s-1.793,4-4,4s-4-1.797-4-4S61.793,20,64,20z M12,48c0-2.203,1.793-4,4-4s4,1.797,4,4s-1.793,4-4,4S12,50.203,12,48z M92,108H36v-8h56V108z M93.633,92H34.367L27.34,61.563l13.508,5.789C41.871,67.789,42.941,68,43.996,68c2.828,0,5.547-1.5,6.996-4.117L64,40.477l13.008,23.406C78.457,66.5,81.176,68,84.004,68c1.055,0,2.125-0.211,3.148-0.648l13.508-5.789L93.633,92z M112,52c-2.207,0-4-1.797-4-4s1.793-4,4-4s4,1.797,4,4S114.207,52,112,52z"></path></g></svg>,
+  gem:<svg className='mr-1' width="18px" height="18px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="var(--ci-primary-color, #50C878)" d="M408.563,48H103.438L16,179.156v24.786L199.421,480H312.579L496,203.942V179.156ZM391.438,80l63.407,95.111H347.739L317.808,80Zm-163.7,0h56.524l29.93,95.111H197.808ZM120.563,80h73.629l-29.931,95.111H57.155Zm96.016,368L56.525,207.111H163.318L219.813,448Zm36.1,0L196.187,207.111H315.813L259.318,448Zm42.739,0h-3.234l56.5-240.889H455.475Z" class="ci-primary"></path></g></svg>
 }

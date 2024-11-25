@@ -38,6 +38,10 @@ const Context = ({ children }) => {
     const [editExperience,setEditExperience]=useState(false)
     const [editEducation,setEditEducation]=useState(false)
     const [editAdditional,setEditAdditional]=useState(false)
+
+    //chat contexts
+    const [openChat,setOpenChat]=useState("both")
+    
    
     useEffect(() => {
     console.log(editAbout)
@@ -47,7 +51,7 @@ const Context = ({ children }) => {
     
     return (
         <MyContext.Provider value={{poppup, setPoppup,formSteps, setFormSteps,expdialog,setExpdialog,edudialog,setEdudialog,proDialog,setProDialog,formData,setFormData,enableNextButton,setEnableNextButton,selectedCandidateMenu,setSelectedCandidateMenu,selectedRecruiterMenu,setSelectedRecruiterMenu,
-            editAbout,setEditAbout,editProjects,setEditProjects,editSkills,setEditSkills,editExperience,setEditExperience,editEducation,setEditEducation,editAdditional,setEditAdditional
+            editAbout,setEditAbout,editProjects,setEditProjects,editSkills,setEditSkills,editExperience,setEditExperience,editEducation,setEditEducation,editAdditional,setEditAdditional,openChat,setOpenChat
         }}>
             {children}
         </MyContext.Provider>

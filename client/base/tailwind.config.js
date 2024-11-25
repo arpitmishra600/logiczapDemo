@@ -12,6 +12,9 @@ export default {
     extend: {
       colors:{
         ourBlue:"#3523B5"
+      },screens:{
+        md:"950px",
+        sm:"680px"
       }
     },
     animation: {

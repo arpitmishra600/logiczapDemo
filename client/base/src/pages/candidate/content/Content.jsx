@@ -10,7 +10,7 @@ export default function Content() {
 const {selectedCandidateMenu}=useMyContext()
   const switcher=()=>{
     switch (selectedCandidateMenu) {
-      case "profile": return <CandidateProfile/>
+      case "profile": return <CandidateProfile type={"private"}/>
       case "messages": return <Chats/>
       case "mytasks": return <Schedule/>
       case "todos": return <Todos/>

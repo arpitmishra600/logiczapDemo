@@ -49,13 +49,13 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
   };
 
   return (
-    <div className=" p-4 absolute left-0 bg-white dark:bg-[#2b2c37] z-50 right-0 ">
+    <div className=" p-4 absolute left-0 bg-white dark:bg-[#2b2c37] z-50 right-0 border-b">
       <header className=" flex justify-between dark:text-white items-center  ">
         {/* Left Side  */}
         <div className=" flex items-center space-x-2  md:space-x-4">
           <img src={Logo} alt=" Logo " className=" h-6 w-6" />
           <h3 className=" md:text-4xl  hidden md:inline-block font-bold  font-sans">
-            kanban
+            Todos&nbsp;
           </h3>
           <div className=" flex items-center ">
             <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold md:ml-20 font-sans  ">
@@ -74,7 +74,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
 
         <div className=" flex space-x-4 items-center md:space-x-6 ">
           <button
-            className=""
+            className="max-md:hidden"
             onClick={() => {
               setIsTaskModalOpen((prevState) => !prevState);
             }}
@@ -85,9 +85,9 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
             onClick={() => {
               setIsTaskModalOpen((prevState) => !prevState);
             }}
-            className=" button py-1 px-3 md:hidden "
+            className="bg-ourBlue p-2 rounded-full hidden max-md:block"
           >
-            +
+           <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
           </button>
 
           <img

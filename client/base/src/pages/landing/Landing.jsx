@@ -29,10 +29,10 @@ const data={
   "For Recruiters":["Post jobs and review applications easily","Automated candidate shortlisting","Manage interviews efficiently","Collaborate with teams on hiring","Integration with popular ATS"],
 }
 export default function Landing() {
-
+document.body.style.overflow="auto"
 
   return (
-    <div>
+    <div className=''>
       <Nav/>
 
       <section className='pt-[100px]'>

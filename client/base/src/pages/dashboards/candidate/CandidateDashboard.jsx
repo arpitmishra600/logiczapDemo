@@ -4,7 +4,7 @@ import Topbar from '../../candidate/topbar/Topbar'
 
 export default function CandidateDashboard() {
   return (
-    <div className='w-screen h-screen border flex flex-col'>
+    <div className='w-screen border flex flex-col'>
          <Topbar/>
       <Sidebar/>
       

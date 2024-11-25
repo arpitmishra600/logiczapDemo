@@ -23,11 +23,11 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/login' element={<Login/>}></Route>
-            <Route path='/candidate/profile' element={<CandidateProfile/>}></Route>
+            <Route path='/candidate/profile/:pid' element={<CandidateProfile type={"public"}/>}></Route>
             <Route path='/candidate/form' element={<CandidateForm/>}></Route>
-            <Route path='/candidate/dashboard' element={<CandidateDashboard/>}></Route>
+            <Route path='/candidate/dashboard' element={<CandidateDashboard />}></Route>
 
-            <Route path='/recruiter/dashboard' element={<RecruiterDashboard/>}/>
+            <Route path='/recruiter/dashboard' element={<RecruiterDashboard />}/>
             <Route path='/' element={<Landing/>}></Route>
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/mainpage' element={<Protected><Mainpage/></Protected>}></Route>

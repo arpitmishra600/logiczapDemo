@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { styled } from '@mui/material/styles';
-import { Autocomplete, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import dayjs from 'dayjs';
 import { useMyContext } from '../context/Context';
 
@@ -29,15 +29,15 @@ const StyledDialogActions = styled(DialogActions)({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
+const initialData={
+  companyName: '',
+  position: '',
+  startDate: dayjs().format('YYYY-MM-DD'),
+  endDate: dayjs().format('YYYY-MM-DD'),
+  currentlyWorking: false,
+}
 export default function ExperienceDialogBox() {
-  const [data, setData] = React.useState({
-    companyName: '',
-    position: '',
-    startDate: dayjs().format('YYYY-MM-DD'),
-    endDate: dayjs().format('YYYY-MM-DD'),
-    currentlyWorking: false,
-  });
+  const [data, setData] = React.useState(initialData);
 
   const [errors, setErrors] = React.useState({
     companyName: '',
@@ -92,6 +92,7 @@ export default function ExperienceDialogBox() {
         experience: [...(prevFormData.experience || []), data],
       }));
       handleClose();
+      setData(initialData)
     }
   };
 
@@ -105,10 +106,10 @@ export default function ExperienceDialogBox() {
         aria-describedby="alert-dialog-slide-description"
       >
         <StyledDialogTitle>{'Add Experience'}</StyledDialogTitle>
-        <DialogContent className='py-3 flex flex-col gap-2'>
+        <DialogContent className="py-3 flex flex-col gap-2">
           {/* Company Name */}
           <TextField
-          sx={{mt:1}}
+            sx={{ mt: 1 }}
             id="companyName"
             label="Company Name"
             variant="outlined"
@@ -120,38 +121,35 @@ export default function ExperienceDialogBox() {
           />
 
           {/* Position */}
-          <Autocomplete
-            options={[{ label: "Software Engineer" }, { label: "Designer" }, { label: "Project Manager" }]}
+          <TextField
+            sx={{ mt: 1 }}
+            id="position"
+            label="Position"
+            variant="outlined"
             size="small"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Position"
-                error={!!errors.position}
-                helperText={errors.position}
-              />
-            )}
-            onChange={(event, newValue) => handleInputChange('position', newValue ? newValue.label : '')}
-            value={data.position || null}
+            value={data.position}
+            onChange={(e) => handleInputChange('position', e.target.value)}
+            error={!!errors.position}
+            helperText={errors.position}
           />
 
           {/* Date Range */}
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <TextField
-              type="date"  
+              type="date"
               value={data.startDate}
               onChange={(e) => handleInputChange('startDate', e.target.value)}
               error={!!errors.dateError}
               helperText={errors.dateError}
-              className='flex-1'
+              className="flex-1"
             />
             <TextField
-              type="date"     
+              type="date"
               value={data.endDate}
               onChange={(e) => handleInputChange('endDate', e.target.value)}
               error={!!errors.dateError}
               helperText={errors.dateError}
-              className='flex-1'
+              className="flex-1"
               disabled={data.currentlyWorking} // Disable if currently working
             />
           </div>
@@ -168,11 +166,10 @@ export default function ExperienceDialogBox() {
           />
         </DialogContent>
 
-        <div className='flex justify-center'>
+        <div className="flex justify-center">
           <button
-          className="text-ourBlue underline cursor-pointer text-[inter] p-2 font-bold"
+            className="text-ourBlue underline cursor-pointer text-[inter] p-2 font-bold"
             onClick={handleSaveChanges}
-           
           >
             Save Changes
           </button>

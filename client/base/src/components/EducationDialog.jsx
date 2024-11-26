@@ -168,7 +168,7 @@ export default function EducationDialogBox() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Select Branch"
+                label="Select Stream"
                 variant="outlined"
                 error={!!errors.branch}
                 helperText={errors.branch}

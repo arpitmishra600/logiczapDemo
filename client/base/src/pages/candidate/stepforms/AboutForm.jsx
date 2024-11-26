@@ -28,7 +28,7 @@ export default function AboutForm() {
     } else if (aboutText.length > 1000) {
       setError('About section cannot exceed 1000 characters.');
       setEnableNextButton(false);
-    } else if (wordCount < 30) {
+    } else if (wordCount < 3) {
       setError('About section must contain at least 30 words.');
       setEnableNextButton(false);
     } else if (wordCount > 200) {
@@ -47,7 +47,7 @@ export default function AboutForm() {
     <div>
       <textarea
         id='about'
-        className="font-[OpenSauceSans] p-2 outline-none bg-[#F4F2EE] border-[black] border rounded-md w-full min-h-[200px]"
+        className="font-[OpenSauceSans] p-2 outline-none bg-[#F4F2EE] border-[black] border rounded-md w-full min-h-[200px] max-md:min-h-[150px] "
         placeholder="About"
         value={aboutText}
         onChange={handleChange}

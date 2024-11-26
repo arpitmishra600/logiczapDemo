@@ -41,11 +41,16 @@ export default function NameForm() {
       lastName: validateName(value),
     }));
   };
-
+  setTimeout(() => {
+    if (firstName=="" && lastName=="") setEnableNextButton(false)
+  }, 10);
+ 
   // Use useEffect to check when both inputs are valid and enable the next button
   useEffect(() => {
     const firstNameError = validateName(firstName);
     const lastNameError = validateName(lastName);
+
+ 
 
     if (!firstNameError && !lastNameError) {
       setEnableNextButton(true);  // Enable button when both inputs are valid

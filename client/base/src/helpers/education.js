@@ -1,5 +1,74 @@
 export const educationOptions = [
   { 
+    group: 'Schooling',
+    label: 'High School',
+    value: 'High School',
+    branches: [
+      'Class I', 
+      'Class II', 
+      'Class III', 
+      'Class IV', 
+      'Class V', 
+      'Class VI', 
+      'Class VII', 
+      'Class IX', 
+      'Class X',
+    ]
+  },
+  { 
+    group: 'Schooling',
+    label: 'Senior Secondary (12th Grade)',
+    value: 'Senior Secondary',
+    branches: [
+      'Science',
+      'Commerce',
+      'Arts'
+    ]
+  },
+  { 
+    group: 'Diploma',
+    label: 'Diploma in Engineering',
+    value: 'Diploma in Engineering',
+    branches: [
+      'Computer Science Engineering',
+      'Mechanical Engineering',
+      'Civil Engineering',
+      'Electrical Engineering',
+      'Electronics and Communication Engineering',
+      'Information Technology',
+      'Automobile Engineering',
+      'Chemical Engineering',
+      'Aerospace Engineering',
+      'Biotechnology Engineering'
+    ]
+  },
+  { 
+    group: 'Diploma',
+    label: 'Diploma in Applied Arts',
+    value: 'Diploma in Applied Arts',
+    branches: [
+      'Graphic Designing',
+      'Interior Designing',
+      'Fashion Designing',
+      'Textile Designing',
+      'Jewelry Designing',
+      'Animation and Multimedia',
+    ]
+  },
+  { 
+    group: 'Diploma',
+    label: 'Diploma in Business',
+    value: 'Diploma in Business',
+    branches: [
+      'Business Management',
+      'Marketing Management',
+      'Human Resource Management',
+      'Financial Accounting',
+      'Sales Management',
+      'Project Management'
+    ]
+  },
+  { 
     group: 'Undergraduate', 
     label: 'B.Tech', 
     value: 'B.Tech', 

@@ -12,7 +12,7 @@ import { Country, State, City }  from 'country-state-city';
 import { useEffect } from 'react';
 import MuiPhoneNumber from 'mui-phone-number';
 import { MuiOtpInput } from 'mui-one-time-password-input'
-
+import { GoogleLogin } from '@react-oauth/google';
 export default function Signup() {
     const navigate= useNavigate()
     const [data,setData]=useState({name:"", email:"", password:"", country:"", state:"", city:"", pincode:"", phoneNumber:"",otp:""})
@@ -180,7 +180,7 @@ export default function Signup() {
               <div className='flex flex-col gap-1 w-[95%] text-nowrap'>
                 <div className='tracking-wider mb-5'>
                   <div className='text-2xl font-bold max-sm:text-[1.3rem]'>Create account</div>
-                  <div className='text-2xl font-bold poppins max-sm:text-sm'>Get started with <span className='text-[#37295A] font-[800]'>Digifolio</span></div>
+                  <div className='text-2xl font-bold poppins max-sm:text-sm'>Get started with <span className='text-[#37295A] font-[800]'>Tallentfy</span></div>
                 </div>
                 <div className='flex justify-center'>
                   <div className='flex border mb-5'>
@@ -189,7 +189,18 @@ export default function Signup() {
                   </div>
                 </div>
 
-                <div className='w-[100%] flex justify-center items-center gap-3 border font-[inter] p-3  card-shadow-lite2 rounded cursor-pointer'><img src='./google.svg' className='w-[30px]'/><div className='font-500'>Google</div></div>
+               <div className='w-full flex justify-center'>
+                  <GoogleLogin auto_select width="100%"
+    onSuccess={credentialResponse => {
+      console.log(credentialResponse);
+    }}
+    onError={() => {
+      console.log('Login Failed');
+    }}
+    useOneTap
+  />
+               </div>
+                {/* <div className='w-[100%] flex justify-center items-center gap-3 border font-[inter] p-3  card-shadow-lite2 rounded cursor-pointer'><img src='./google.svg' className='w-[30px]'/><div className='font-500'>Google</div></div> */}
                 <div className=' border my-5 relative flex items-center justify-center'><div className='font-[inter] absolute bg-[white] text-xs -top-2 px-3 '>Or with email and password</div></div>
 
 

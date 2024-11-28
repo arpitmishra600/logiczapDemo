@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
 
       <div className='flex font-[inter] h-full gap-10'>
-        <div className="flex rounded-xl">
+        <div className="flex rounded-xl max-md:hidden">
           <aside className={`rounded-[32px] bg-[white] relative transition-all duration-500 ${showText ? 'w-[230px]' : 'w-20'} space-y-4 px-2 flex flex-col`}>
             <img src='/logo.png' className='p-3'/>
             <button id='' onClick={toggleText} className="absolute -right-5 top-4 p-1 rounded-full bg-[#3C21F7] rotate-90 flex items-center justify-center  z-[100]">

@@ -1,29 +1,62 @@
 import { Avatar } from '@mui/material'
-import React from 'react'
-
+import React, { useState } from 'react'
+import Filter from '../candidatesBox/Filter'
+import { useMyContext } from '../../../context/Context'
+import {motion} from 'framer-motion'
 export default function Topbar() {
+  const {selectedRecruiterMenu,setSelectedRecruiterMenu}=useMyContext()
+  const [openFilter,setOpenFilter]=useState(false)
+  const [dashDrop,setDashDrop]=useState(false)
   return (
-    <div className='flex h-20 w-full items-center p-2 gap-5'>
-      <span className='text-3xl font-bold flex-1' >Dashboard</span> 
-
-      <div className='relative flex justify-center flex-[3]'>
-            <input className='w-full outline-none bg-[white] p-2 pl-10  rounded-xl' placeholder='search' />
-<svg className='absolute left-3 top-[10px]' width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="9.76659" cy="9.7666" r="8.98856" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16.0183 16.4851L19.5423 20" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-          </div>
-
-        <div className='flex flex-1 gap-5'>
-            <div className='bg-[#E2DEFF] flex items-center p-1 rounded-[32px] gap-1 px-3 text-[#3C21F7] font-bold text-sm '>ID
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M10.869 16.6308C10.811 16.5743 10.563 16.3609 10.359 16.1622C9.076 14.9971 6.976 11.9576 6.335 10.3668C6.232 10.1252 6.014 9.51437 6 9.18802C6 8.8753 6.072 8.5772 6.218 8.29274C6.422 7.93814 6.743 7.65368 7.122 7.49781C7.385 7.39747 8.172 7.2416 8.186 7.2416C9.047 7.08573 10.446 7 11.992 7C13.465 7 14.807 7.08573 15.681 7.21335C15.695 7.22796 16.673 7.38383 17.008 7.55431C17.62 7.86702 18 8.47784 18 9.13151V9.18802C17.985 9.61374 17.605 10.509 17.591 10.509C16.949 12.0141 14.952 14.9834 13.625 16.1768C13.625 16.1768 13.284 16.5129 13.071 16.659C12.765 16.887 12.386 17 12.007 17C11.584 17 11.19 16.8724 10.869 16.6308Z" fill="#3C21F7"/>
-</svg>
-            </div>
-            <div className='flex items-center justify-center text-[#18273A] gap-1'>
+    <div className='flex h-20 w-full items-center p-2 gap-5 relative'>
+       
+      <span className='text-3xl font-bold flex-1 max-md:text-2xl max-sm:hidden' >{selectedRecruiterMenu}</span> 
+      
+      {dashDrop && <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.3}} id="dropdownMenu" className={`hidden max-md:block absolute right-5 top-12 mt-2 bg-white rounded-md shadow-lg py-2 text-gray-800 p-3 card-shadow border space-y-2 transition-all duration-500 z-[100]`}>
+      <div className='flex items-center justify-center text-[#18273A] gap-2  py-3 border-b'>
                 <Avatar src=''/>
                 <div>
+                    <div className='leading-4 font-[500]'>Asril ibrahim</div>
+                    <div className='leading-4 text-xs '>asril.ibrahim@rocketmail.com</div>
+                </div>
+            </div>
+        <div className={`flex px-2 py-[4px] hover:bg-gray-100 items-center rounded cursor-pointer ${selectedRecruiterMenu=="profile"?"bg-gray-100":""}`} onClick={()=>{setSelectedRecruiterMenu("profile");setDashDrop(false)}}><svg className='h-[22px] w-[22px] mr-1' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.4399 19.05L15.9599 20.57L18.9999 17.53" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.44997 10.79 7.55997 8.84 7.55997 6.44C7.54997 3.99 9.53997 2 11.99 2C14.44 2 16.43 3.99 16.43 6.44C16.43 8.84 14.53 10.79 12.16 10.87Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M11.99 21.8101C10.17 21.8101 8.36004 21.3501 6.98004 20.4301C4.56004 18.8101 4.56004 16.1701 6.98004 14.5601C9.73004 12.7201 14.24 12.7201 16.99 14.5601" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>My Profile</div>
+        <div className={`flex px-2 py-[4px] hover:bg-gray-100 items-center rounded cursor-pointer ${selectedRecruiterMenu=="messages"?"bg-gray-100":""}`} onClick={()=>{setSelectedRecruiterMenu("messages");setDashDrop(false)}}><svg className='h-[22px] w-[22px] mr-1' viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#292D32" d="M18.5 46v-6a6 6 0 0 0-4.243 10.243L18.5 46ZM42 52h104V40H42v12Zm118 14v60h12V66h-12Zm-14 74H62v12h84v-12ZM42 40H18.5v12H42V40Zm6 86V76.127H36V126h12ZM14.257 50.243l18.814 18.813 8.485-8.485-18.813-18.814-8.486 8.486ZM48 76.127a22 22 0 0 0-6.444-15.556l-8.485 8.485A10 10 0 0 1 36 76.127h12ZM62 140c-7.732 0-14-6.268-14-14H36c0 14.359 11.64 26 26 26v-12Zm98-14c0 7.732-6.268 14-14 14v12c14.359 0 26-11.641 26-26h-12Zm-14-74c7.732 0 14 6.268 14 14h12c0-14.36-11.641-26-26-26v12Z"></path><path stroke="#292D32" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" d="M66 84h76m-76 24h44"></path></g></svg>Messages</div>
+        <div className={`flex px-2 py-[4px] hover:bg-gray-100 items-center rounded cursor-pointer ${selectedRecruiterMenu=="candidates"?"bg-gray-100":""}`} onClick={()=>{setSelectedRecruiterMenu("candidates");setDashDrop(false)}}><svg className='h-[22px] w-[22px] mr-1' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15C11.381 15 12.6296 14.4415 13.5355 13.5355C14.4415 12.6296 15 11.381 15 10C15 7.23858 12.7614 5 10 5ZM3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10C17 11.5719 16.481 13.0239 15.6063 14.1921L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L14.1921 15.6063C13.0239 16.481 11.5719 17 10 17C6.13401 17 3 13.866 3 10Z" fill="#292D32"></path> </g></svg>Candidates</div>
+        <div className={`flex px-2 py-[4px] hover:bg-gray-100 items-center rounded cursor-pointer ${selectedRecruiterMenu=="mytasks"?"bg-gray-100":""}`} onClick={()=>{setSelectedRecruiterMenu("mytasks");setDashDrop(false)}}><svg className='h-[22px] w-[22px] mr-1' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.9994 19.2601H10.9294C10.4794 19.2601 10.1094 18.8901 10.1094 18.4401C10.1094 17.9901 10.4794 17.6201 10.9294 17.6201H19.9994C20.4494 17.6201 20.8194 17.9901 20.8194 18.4401C20.8194 18.9001 20.4494 19.2601 19.9994 19.2601Z" fill="#292D32"></path> <path d="M19.9994 12.9701H10.9294C10.4794 12.9701 10.1094 12.6001 10.1094 12.1501C10.1094 11.7001 10.4794 11.3301 10.9294 11.3301H19.9994C20.4494 11.3301 20.8194 11.7001 20.8194 12.1501C20.8194 12.6001 20.4494 12.9701 19.9994 12.9701Z" fill="#292D32"></path> <path d="M19.9994 6.66979H10.9294C10.4794 6.66979 10.1094 6.29978 10.1094 5.84978C10.1094 5.39978 10.4794 5.02979 10.9294 5.02979H19.9994C20.4494 5.02979 20.8194 5.39978 20.8194 5.84978C20.8194 6.29978 20.4494 6.66979 19.9994 6.66979Z" fill="#292D32"></path> <path opacity="0.4" d="M4.90969 8.02992C4.68969 8.02992 4.47969 7.93992 4.32969 7.78992L3.41969 6.87992C3.09969 6.55992 3.09969 6.03992 3.41969 5.71992C3.73969 5.39992 4.25969 5.39992 4.57969 5.71992L4.90969 6.04992L7.04969 3.90992C7.36969 3.58992 7.88969 3.58992 8.20969 3.90992C8.52969 4.22992 8.52969 4.74992 8.20969 5.06992L5.48969 7.78992C5.32969 7.93992 5.12969 8.02992 4.90969 8.02992Z" fill="#292D32"></path> <path opacity="0.4" d="M4.90969 14.3302C4.69969 14.3302 4.48969 14.2502 4.32969 14.0902L3.41969 13.1802C3.09969 12.8602 3.09969 12.3402 3.41969 12.0202C3.73969 11.7002 4.25969 11.7002 4.57969 12.0202L4.90969 12.3502L7.04969 10.2102C7.36969 9.89021 7.88969 9.89021 8.20969 10.2102C8.52969 10.5302 8.52969 11.0502 8.20969 11.3702L5.48969 14.0902C5.32969 14.2502 5.11969 14.3302 4.90969 14.3302Z" fill="#292D32"></path> <path opacity="0.4" d="M4.90969 20.3302C4.69969 20.3302 4.48969 20.2502 4.32969 20.0902L3.41969 19.1802C3.09969 18.8602 3.09969 18.3402 3.41969 18.0202C3.73969 17.7002 4.25969 17.7002 4.57969 18.0202L4.90969 18.3502L7.04969 16.2102C7.36969 15.8902 7.88969 15.8902 8.20969 16.2102C8.52969 16.5302 8.52969 17.0502 8.20969 17.3702L5.48969 20.0902C5.32969 20.2502 5.11969 20.3302 4.90969 20.3302Z" fill="#292D32"></path> </g></svg>My Tasks</div>
+        <div className={`flex px-2 py-[4px] hover:bg-gray-100 items-center rounded cursor-pointer ${selectedRecruiterMenu=="todos"?"bg-gray-100":""}`} onClick={()=>{setSelectedRecruiterMenu("todos");setDashDrop(false)}}><svg className="h-[22px] w-[22px] mr-1 opacity-75" viewBox="0 0 24 24" fill="none" strokeWidth="1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M8 12C7.44772 12 7 12.4477 7 13C7 13.5523 7.44772 14 8 14H16C16.5523 14 17 13.5523 17 13C17 12.4477 16.5523 12 16 12H8Z" fill="#292D32"></path><path d="M7 17C7 16.4477 7.44772 16 8 16H12C12.5523 16 13 16.4477 13 17C13 17.5523 12.5523 18 12 18H8C7.44772 18 7 17.5523 7 17Z" fill="#292D32"></path><path fillRule="evenodd" clipRule="evenodd" d="M8 3C8 2.44772 7.55228 2 7 2C6.44772 2 6 2.44772 6 3V4.10002C3.71776 4.56329 2 6.58104 2 9V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V9C22 6.58104 20.2822 4.56329 18 4.10002V3C18 2.44772 17.5523 2 17 2C16.4477 2 16 2.44772 16 3V4H8V3ZM20 10H4V17C4 18.6569 5.34315 20 7 20H17C18.6569 20 20 18.6569 20 17V10ZM4.17071 8C4.58254 6.83481 5.69378 6 7 6H17C18.3062 6 19.4175 6.83481 19.8293 8H4.17071Z" fill="#292D32" strokeWidth="1"></path></g></svg>Todos</div>
+
+        <div className="block px-2 py-[4px]  border-t text-center cursor-pointer">Logout</div>
+      </motion.div>}
+      
+      {selectedRecruiterMenu == "candidates" &&
+      
+        <div className='relative flex justify-center flex-[3]'>
+        <input className='w-full outline-none bg-[white] p-2 pl-10  rounded-xl' placeholder='search' />
+  <svg className='absolute left-3 top-[10px]' width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="9.76659" cy="9.7666" r="8.98856" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.0183 16.4851L19.5423 20" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+          <button className='mx-3 bg-[#3C21F7] text-white text-sm flex gap-2 items-center px-3 rounded-lg ' onClick={()=>setOpenFilter(!openFilter)}>{svgs.filter} <span className='max-sm:hidden'>Filter</span>
+          </button>
+          {openFilter && <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.2}} className='w-[300px] min-w-[200px] bg-slate-200 absolute right-0 p-5 h-[80vh] overflow-x-auto top-12 z-[100] rounded'>
+              <Filter setOpenFilter={setOpenFilter}/>
+            </motion.div>}
+      </div>
+          
+  
+      }
+      
+
+        <div className='flex gap-5'>
+            
+
+            <div className='flex items-center justify-center text-[#18273A] gap-1'>
+                <Avatar src=''/>
+                <button className="items-center space-x-2 focus:outline-none hidden max-md:flex left-0" onClick={()=>setDashDrop(!dashDrop)} >
+        <svg width="30px" className={`${dashDrop?"":"rotate-180"} transition-all duration-200`} height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 15L12 9L6 15" stroke="#000000" stroke-width="2"></path> </g></svg>
+      </button>
+                <div className='max-md:hidden'>
                     <div className='leading-4 font-[500]'>Asril ibrahim</div>
                     <div className='leading-4 text-xs '>asril.ibrahim@rocketmail.com</div>
                 </div>
@@ -31,4 +64,8 @@ export default function Topbar() {
         </div>
     </div>
   )
+}
+
+const svgs={
+  filter:<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15 15L21 21M21 15L15 21M10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L17 11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 }

@@ -1,36 +1,36 @@
 
 import { Avatar } from '@mui/material'
 import React from 'react'
-import Filter from './Filter'
+
 
 export default function CandidatesBox() {
   return (
     <div className='bg-white rounded-[32px] w-full min-h-[300px] flex p-3'>
-      <div className='flex-1 overflow-y-auto h-[80vh]'>
+      <div className='flex-1 overflow-x-auto h-[80vh]'>
         {[1,2,3,4].map((item)=>
-        <div className='flex gap-2 border-b pb-5'>
+        <div className='flex gap-2 border-b pb-5 max-md:flex-col'>
 
 <div className='flex flex-col'>
-   <div className='flex items-center gap-2 p-3'>
-     <Avatar className='!h-[200px] !w-[150px]' style={{borderRadius:8 }}/>
+   <div className='flex items-center gap-2 p-3 max-sm:flex-col'>
+     <Avatar className='!h-[200px] !w-[150px] ' style={{borderRadius:8 }}/>
      <div className=''>
-       <div className='text-3xl font-bold tracking-wide mb-2'>Anarghya Kini</div>
-       <div className='flex text-sm tracking-wide mb-2 items-center'>{svgs.location}Karnataka,{<div className='opacity-50 mr-3'>India</div>}{svgs.language}hindi,english</div>
-       <div className='!overflow-x-auto hidebar w-[30vw] mb-3'>
-         <div className='flex gap-3 hidebar text-nowrap p-1'>
-           {[1,2,3,4].map((item)=><div className='border p-1 px-3 '><div className='text-sm font-[500]'>Software Developer</div><div className='opacity-50 text-xs'>Google</div></div>)}
+       <div className='text-3xl font-bold tracking-wide mb-2 max-md:text-2xl max-sm:text-center'>Anarghya Kini</div>
+       <div className='flex text-sm tracking-wide mb-2 items-center max-sm:text-xs max-sm:justify-center'>{svgs.location}Karnataka,{<div className='opacity-50 mr-3'>India</div>}{svgs.language}hindi,english</div>
+       <div className='!overflow-x-auto relative hidebar w-full mb-3 h-[50px]'>
+         <div className='flex gap-3 hidebar text-nowrap p-1 absolute'>
+           {[1,2,3,4].map((item)=><div className='border p-1 px-3 '><div className='text-sm font-[500] max-sm:text-xs'>Software Developer</div><div className='opacity-50 text-xs'>Google</div></div>)}
          </div>
        </div>
-       <div className='text-sm opacity-75'>{`Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias sequi, repellat odit maiores voluptas mollitia ratione enim repellendus beatae provident quos tempore incidunt vitae? Eius quae culpa rerum omnis dolor nihil, nobis perspiciatis fugit ab, corrupti illo quos error provident. Quisquam cum eaque est culpa ea veritatis dolorum recusandae ipsa laborum hic voluptatem necessitatibus, sunt autem? Illum deleniti aperiam sunt!`.split(' ').slice(0, 32).join(' ') + '...'}</div>
+       <div className='text-sm opacity-75 max-sm:text-xs'>{`Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias sequi, repellat odit maiores voluptas mollitia ratione enim repellendus beatae provident quos tempore incidunt vitae? Eius quae culpa rerum omnis dolor nihil, nobis perspiciatis fugit ab, corrupti illo quos error provident. Quisquam cum eaque est culpa ea veritatis dolorum recusandae ipsa laborum hic voluptatem necessitatibus, sunt autem? Illum deleniti aperiam sunt!`.split(' ').slice(0, 32).join(' ') + '...'}</div>
      </div>
    </div>
    <div className='flex gap-3'>
    {[1,2,3,4].map((item)=><div className='border p-1 px-3'><div className='text-sm font-[500]'>Skills</div></div>)}
    </div>
 
- <div className='flex font-[500] text-sm items-center mt-3'>
- {svgs.suitcase}Working for:<div className='opacity-75 mr-3'>Google</div>
- {svgs.target}Interests:<div className='opacity-75'>SDE | Testing | Debugging</div>
+ <div className='flex font-[500] text-sm items-center mt-3 max-sm:flex-col'>
+ <div className='flex gap-1'>{svgs.suitcase}Working for:<div className='opacity-75 mr-3'>Google</div></div>
+ <div className='flex gap-1'>{svgs.target}Interests:<div className='opacity-75'>SDE | Testing | Debugging</div></div>
  </div>
 </div>
 
@@ -56,9 +56,7 @@ export default function CandidatesBox() {
       
       
 
-      <div className='w-[300px] bg-slate-200'>
-        <Filter/>
-      </div>
+      
     </div>
   )
 }

@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    name: {
+        type: String,
+        default: ""
+    },
     username: {
         type: String,
         required: true,
@@ -15,27 +19,21 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
     },
     phoneNumber: {
         type: Number,
-        required: true,
     },
     country: {
         type: String,
-        required: true
     },
     state: {
         type: String,
-        required: true
     },
     city: {
         type: String,
-        required: true,
     },
     pincode: {
         type: Number,
-        required: true,
     },
     profileImage: {
         type: String,
@@ -69,6 +67,15 @@ const userSchema = new mongoose.Schema({
     lastSeen: {
         type: Date,
         default: null
+    },
+    isFormFilled: {
+        type: Boolean,
+        default: false
+    },
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true
     }
 }, {timestamps: true}); 
 

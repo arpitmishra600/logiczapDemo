@@ -46,7 +46,7 @@ function getDateComponent() {
 }
 
 // Generate a new custom ID
-async function generateCustomId(collection) {
+exports.generateCustomId = async(collection) => {
     const dateComponent = getDateComponent();
 
     // Find the latest serial number for the given date
@@ -66,6 +66,8 @@ async function generateCustomId(collection) {
     const serialComponent = String(serialNumber).padStart(4, '0');
     return `${dateComponent}-${serialComponent}`;
 }
+
+
 
 exports.sendOtpHandler = async (req, res) => {
     const {email} = req.body;
@@ -101,10 +103,10 @@ exports.sendOtpHandler = async (req, res) => {
 }
 
 exports.signupHandler = async (req, res) => {
-    const {username, email, password, country, state, city, pincode, phoneNumber, otp} = req.body;
+    const {username, email, password, country, state, city, pincode, phoneNumber, otp, language} = req.body;
 
     try {
-        if (!username || !email || !password || !country || !state || !city || !pincode || !phoneNumber) {
+        if (!username || !email || !password || !country || !state || !city || !pincode || !phoneNumber || !language) {
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
@@ -136,7 +138,6 @@ exports.signupHandler = async (req, res) => {
         const customId = await generateCustomId(User.collection);
 
         const profile = await UserProfile.create({
-            name: "",
             education: [],
             workExperience: [],
             positionsOfResponsibility: [],
@@ -153,7 +154,7 @@ exports.signupHandler = async (req, res) => {
           city,
           pincode,
           phoneNumber,
-          profile: profile._id            
+          profile: profile._id,           
       });
 
       const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
@@ -223,28 +224,85 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
-exports.searchUserBySkills = async (req, res) => {
-    const {skillNames} = req.body || [];
-
-    if (skillNames.length === 0) {
-        return res.status(400).json({message: "Please provide skills"});
-    }
-
+exports.search = async (req, res) => {
+    const {
+      skills,
+      languages,
+      domain,
+      locations,
+      minExperience,
+      maxExperience,
+      minExpectedSalary,
+      maxExpectedSalary,
+    } = req.body;
+  
+    
+  
     try {
-        const matchingProfiles = await UserProfile.find({
-            "skills.name": {$all: skillNames}
-        });
+      
+      // Initialize filter object for query
+      const filter = {};
+      
+      // Search by skills
+      if (skills) {
+        const skillsArray = Array.isArray(skills) ? skills : skills.split(',');
+        filter['skills.name'] = { $in: skillsArray };
+      }
+  
+      // Search by languages
+      if (languages) {
+        const languagesArray = Array.isArray(languages)
+          ? languages
+          : languages.split(',');
+        filter.languages = { $in: languagesArray };
+      }
+  
+      // Search by domain (case-insensitive)
+      if (domain) {
+        filter.domain = { $regex: domain, $options: 'i' };
+      }
+  
+      // Search by locations
+      if (locations) {
+        const locationsArray = Array.isArray(locations)
+          ? locations
+          : locations.split(',');
+        filter.locations = { $all: locationsArray };
+      }
+  
+      // Search by experience range
+      if (minExperience || maxExperience) {
+        filter.experience = {};
+        if (minExperience) filter.experience.$gte = parseFloat(minExperience);
+        if (maxExperience) filter.experience.$lte = parseFloat(maxExperience);
+      }
+  
+      // Search by expected salary range
+      if (minExpectedSalary || maxExpectedSalary) {
+        filter.expectedSalary = {};
+        if (minExpectedSalary) filter.expectedSalary.$gte = parseFloat(minExpectedSalary);
+        if (maxExpectedSalary) filter.expectedSalary.$lte = parseFloat(maxExpectedSalary);
+      }
+  
+      // Fetch matching profiles
+      const userProfiles = await UserProfile.find(filter).lean();
+      
+      const userIds = userProfiles.map(profile => profile._id);
 
-        const userIds = matchingProfiles.map(profile => profile._id);
-
-        const users = await User.find({profile: {$in: userIds}}).populate("profile");
-
-        return res.status(200).json({message: "Users fetched", users})
+      const users = await User.find({ profile: { $in: userIds } })
+        .populate('profile') // Populate the profile field
+        .select('-password') // Exclude sensitive fields like password
+        .lean(); // Convert to plain objects to avoid circular references
+  
+      const totalUsers = userProfiles.length;
+  
+      res.status(200).json({ users, totalUsers });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({message: "Error fetching users"});
+      console.error('Search Error:', error.message);
+      res.status(500).json({ message: 'Error during search', error: error.message });
     }
-}
+  };
+  
 
 exports.updateProfileImage = async (req, res) => {
     const profileImagePath = req.file?.path;

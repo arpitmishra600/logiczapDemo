@@ -172,6 +172,31 @@ export default function Signup() {
     setSeconds(10);  // Reset the timer to 10 seconds
     setIsActive(true);
   };
+
+  const handleSuccess = async (credentialResponse) => {
+    try {
+      const { credential } = credentialResponse;
+        
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/google/verify`,
+        { token: credential }
+      );
+
+      if (response.data.success) {
+        console.log('Login successful:', response.data);
+        navigate('/mainpage');
+      } else {
+        console.error('Login failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error verifying Google token:', error);
+    }
+  };
+
+  const handleError = () => {
+    console.error('Google Login Failed');
+  };
+
   return (
     <div className='flex w-screen h-screen  justify-center items-center bg-[#D8DEEE] font-[inter] min-h-[600px]'>
           <div className='flex justify-center w-[90%] h-[90%] min-h-[600px]  max-sm:h-screen max-sm:w-screen card-shadow-lite bg-white' >
@@ -191,14 +216,9 @@ export default function Signup() {
 
                <div className='w-full flex justify-center'>
                   <GoogleLogin auto_select width="100%"
-    onSuccess={credentialResponse => {
-      console.log(credentialResponse);
-    }}
-    onError={() => {
-      console.log('Login Failed');
-    }}
-    useOneTap
-  />
+                   onSuccess={handleSuccess}
+                   onError={handleError}
+                    useOneTap  />
                </div>
                 {/* <div className='w-[100%] flex justify-center items-center gap-3 border font-[inter] p-3  card-shadow-lite2 rounded cursor-pointer'><img src='./google.svg' className='w-[30px]'/><div className='font-500'>Google</div></div> */}
                 <div className=' border my-5 relative flex items-center justify-center'><div className='font-[inter] absolute bg-[white] text-xs -top-2 px-3 '>Or with email and password</div></div>

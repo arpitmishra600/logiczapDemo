@@ -11,6 +11,7 @@ const utilRoutes = require("./routes/utils.routes");
 const recruiterRoutes = require("./routes/recruiter.routes");
 const io = require("./websocket/socket-server-recruiter");
 const messageRoutes = require("./routes/messages.routes");
+const googleRoutes = require("./routes/google.routes");
 
 
 
@@ -35,6 +36,7 @@ app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/utils", utilRoutes);
 app.use("/api/v1/recruiter", recruiterRoutes);
 app.use("/api/v1/messages", messageRoutes);
+app.use("/api/v1/google", googleRoutes);
 
 
 dbConnect();

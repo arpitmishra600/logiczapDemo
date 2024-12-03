@@ -511,26 +511,36 @@ li:nth-child(3) .input:focus {
 
 
 
-
-.projectscroll ::-webkit-scrollbar {
-  width: 3px;
-  
-}
-.projectscroll ::-webkit-scrollbar:hover {
-  opacity: 1;
+/* Hide scrollbar on all elements */
+.scroll-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
-.projectscroll ::-webkit-scrollbar-track {
-  background-color: #ebebeb;
-  -webkit-border-radius: 60px;
-  border-radius: 60px;
+.scroll-hidden::-webkit-scrollbar {
+  display: none; /* WebKit browsers */
 }
 
-.projectscroll ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 60px;
-  border-radius: 60px;
-  background: #6d6d6d; 
+/* Custom scrollbar styling */
+.scroll-custom::-webkit-scrollbar {
+  width: 8px;
 }
+
+.scroll-custom::-webkit-scrollbar-track {
+  background: #38b6ff4d;
+  border-radius: 4px;
+}
+
+.scroll-custom::-webkit-scrollbar-thumb {
+  background-color: #3523B5;
+  border-radius: 4px;
+  border: 2px solid #f0f0f0;
+}
+
+.scroll-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #2d3748;
+}
+
 .hidebar::-webkit-scrollbar {
   display: none;
 }

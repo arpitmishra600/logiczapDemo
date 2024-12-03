@@ -1,5 +1,5 @@
 import { Avatar, Chip } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useMyContext } from '../../context/Context'
 import AboutEdit from '../../modals/candidate/dashboard/AboutEdit'
 import ProjectsEdit from '../../modals/candidate/dashboard/ProjectsEdit'
@@ -9,14 +9,16 @@ import ExperienceEdit from '../../modals/candidate/dashboard/ExperienceEdit'
 import EducationEdit from '../../modals/candidate/dashboard/EducationEdit'
 import AdditionalEdit from '../../modals/candidate/dashboard/AdditionalEdit'
 import { useParams } from 'react-router-dom'
+import BasicEdit from '../../modals/candidate/dashboard/BasicEdit'
 
 
 
 export default function CandidateProfile({type}) {
   const {editAbout,setEditAbout,editProjects,setEditProjects,editSkills,setEditSkills,editExperience,setEditExperience,editEducation,setEditEducation,editAdditional,setEditAdditional}=useMyContext()
   const {pid}=useParams()
+  const [editOpen,setEditOpen]=useState(false) 
   return (
-    <div className='flex justify-center max-md:justify-start max-md:items-center pt-10  gap-5 bg-[#F5F5F5] font-[inter] overflow-auto max-md:flex-col'>
+    <div className='flex scroll-custom justify-center max-md:justify-start max-md:items-center pt-10  gap-5 bg-[#F5F5F5] font-[inter] overflow-auto max-md:flex-col'>
       <div className='flex gap-3 flex-col w-[70%] max-md:w-[80%] max-sm:w-[90%]' >
           <section className='bg-[white] card-shadow-lite2 relative rounded-[14px]'>
            <div className='relative items-center'>
@@ -26,20 +28,24 @@ export default function CandidateProfile({type}) {
            </div> 
            
             <div id='infoBox' className='font-[inter] max-md:ml-[130px] flex flex-col relative max-md:-mt-[90px] max-sm:ml-[90px] max-sm:-mt-[70px] max-md:gap-0 -mt-[129px] ml-[185px] tracking-wide gap-1 mb-3'>
-                <div id="name" className='text-3xl font-[600] font-[inter] pb-1 flex justify-between items-center max-md:text-xl '>Arpit Mishra
-                 {type=="public" && <div className='flex items-center gap-2 max-sm:gap-1'>
+                <div id="name" className='text-3xl font-[600] font-[inter] pb-1 flex justify-between items-center max-md:text-xl '>Arpit Mishra 
+                 {type=="public"? <div className='flex items-center gap-2 max-sm:gap-1'>
                     {svgs.download}
                     <button className='flex text-white bg-[#5064F7] text-sm tracking-wide rounded-lg gap-1 py-1 items-center pr-3 !font-[400] mr-3 max-md:pr-[6px]'><img src='/send.svg' className='w-[30px] max-md:w-[20px] rotate-[45deg]'/><div className='max-md:hidden'>Share Profile</div></button>
-                 </div>}
+                 </div>: <div onClick={()=>setEditOpen(true)} className='flex gap-1 items-center justify-center cursor-pointer mr-4'><img src='/edit.svg' className='w-[30px]'/></div>}
                   </div>
                 <div id='about' className='text-[#686868] text-xs font-[500]'>MERN stack developer @ Logiczap</div>
                 <div class="text-[#686868]  text-xs font-[500]">Bhubaneswar, Odisha, India</div>
-            <div className='rounded-sm gap-2 flex-wrap  flex py-2 pb-5'>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>UX Dev</span>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Designer</span>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Freelancer</span>
+            <div className='flex'>
+               <div className='rounded-sm gap-2 flex-wrap  flex py-2 pb-3 border-b'>
+                  <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>UX Dev</span>
+                  <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Designer</span>
+                  <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Freelancer</span>
+               </div>
                 
             </div>    
+           
+             <div className='flex max-sm:text-xs text-sm '><div className='flex gap-1 py-2 pr-3 flex-wrap'><div className='text-[#686868] font-bold'>Salary Range :</div><div className='text-[#00644D] font-bold'> $1000 - $1000</div></div></div>
             </div>
           </section>
 
@@ -59,7 +65,7 @@ export default function CandidateProfile({type}) {
                   {type=="private" && <div onClick={()=>setEditProjects(!editProjects)} className='flex gap-1 items-center justify-center cursor-pointer'><img src='/edit.svg' className='w-[30px]'/></div>}
               </div>
   
-              <div className='overflow-hidden hover:overflow-auto  flex flex-col gap-5 projectscroll pr-3'>
+              <div className='overflow-auto  flex flex-col gap-5 scroll-custom pr-3'>
                 {[1,2,3,4].map((item)=><div className='flex gap-5'>
                     <img src='/blankimage.webp' id='edulogo' className='w-[70px] h-[55px]'/>
                     <div>
@@ -77,7 +83,7 @@ export default function CandidateProfile({type}) {
                   {type=="private" && <div onClick={()=>setEditSkills(!editSkills)} className='flex gap-1 items-center justify-center'><img src='/edit.svg' className='w-[30px]'/></div>}
               </div>
 
-              <div className='overflow-hidden pr-3'>
+              <div className='overflow-auto pr-3 scroll-custom'>
               <Skills/>
               </div>
             </section>
@@ -125,7 +131,7 @@ export default function CandidateProfile({type}) {
       <div id='sider' className="max-md:w-[80%] max-sm:w-[90%] flex flex-col gap-2 text-nowrap">
         <section className='bg-white p-5 card-shadow-lite2 rounded-[12px]'>
             
-                <div className='flex justify-between mb-2'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Languages Known</div></div>{type=="private" && <img onClick={()=>setEditAdditional(!editAdditional)}  src='/edit.svg' className='w-[30px]'/>}</div>
+                <div className='flex justify-between mb-2 gap-2 items-center'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Languages Known</div></div>{type=="private" && <img onClick={()=>setEditAdditional(!editAdditional)}  src='/edit.svg' className='w-[30px]'/>}</div>
                 <div className='flex gap-1 border-b pb-5 mb-3'>
                 <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Hindi</span>
                 <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>English</span>
@@ -133,7 +139,7 @@ export default function CandidateProfile({type}) {
                 </div> 
            
             <div>
-            <div className='flex justify-between mb-2'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Preffered Locations</div></div>{type=="private" && <img src='/edit.svg' className='w-[30px]'/>}</div>
+            <div className='flex justify-between mb-2 gap-2 items-center'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Preffered Locations</div></div>{type=="private" && <img onClick={()=>setEditAdditional(!editAdditional)} src='/edit.svg' className='w-[30px]'/>}</div>
                 <div className='flex gap-1  mb-3'>
                 <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Delhi</span>
                 <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Odisha</span>
@@ -144,23 +150,24 @@ export default function CandidateProfile({type}) {
         </section>
 
         <section className='bg-white p-3 card-shadow-lite2 rounded-[12px] p-5'> 
-        <div className='flex justify-between'><div className='font-[600] text-xl pb-2 max-md:text-lg'>Connect</div></div>
+        <div className='flex justify-between mb-2 gap-2 items-center'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Connect</div></div>{type=="private" && <img onClick={()=>setEditAdditional(!editAdditional)} src='/edit.svg' className='w-[30px]'/>}</div>
             <div className='flex gap-3 pb-1 '><img src='/portfolio.svg'className='w-[25px] '/><span className='text-sm font-[500]'>portfolio.com</span></div>
             <div className='flex gap-3 pb-1 '><img src='/github.svg'className='w-[25px]'/><span className='text-sm font-[500]'>github.com</span></div>
             <div className='flex gap-3  '><img src='/mail.svg'className='w-[25px]'/><span className='text-sm font-[500]'>mail@test.com</span></div>
 
         </section>
 
-        <section className='bg-white p-3 card-shadow-lite2 rounded-[12px] p-5'>
+        {type=="public" && <section className='bg-white p-3 card-shadow-lite2 rounded-[12px] p-5'>
           <div className='flex justify-between mb-4'><div className='font-[600] text-xl '>Top Recruiters</div></div>
           {[1,2,3,4,5,6].map((item)=><div className='flex gap-3 mb-3'><Avatar/><div><div className='text-md font-[500]'>Company Name</div> <div className='text-xs font-[500] text-[gray]'>software</div></div></div>)}
-        </section>
+        </section>}
       <AboutEdit/>
       <ProjectsEdit/>
       <SkillEdit/>
       <ExperienceEdit/>
       <EducationEdit/>
       <AdditionalEdit/>
+      <BasicEdit open={editOpen} onClose={setEditOpen}/>
       </div>
     </div>
   )

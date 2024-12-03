@@ -1,66 +1,14 @@
-import * as React from 'react';
-
-import { BarChart } from '@mui/x-charts/BarChart';
-import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
 
+import React from 'react'
 
-const chartSetting = {
-  yAxis: [
-    {
-      label: 'Skill Level',
-    },
-  ],
-  series: [{ dataKey: 'value', color: '#004AAD',}],
-  height: 300,
-  sx: {
-    [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-      transform: 'translateX(-10px)',
-    },
-  },
-};
-
-
-export default function TickPlacementBars() {
-  const [tickPlacement, setTickPlacement] = React.useState('middle');
-  const [tickLabelPlacement, setTickLabelPlacement] = React.useState('middle');
-
+export default function Skills() {
   return (
-    <div style={{ width: '100%' }}>
-      <BarChart
-        dataset={dataset}
-        xAxis={[
-          { scaleType: 'band', dataKey: 'name', tickPlacement, tickLabelPlacement },
-        ]}
-        {...chartSetting}
-      />
+    <div>
+     {[...Array(10)].map(item=><div className='flex justify-between items-center border-b py-3'>
+        <div className=''>HTML</div>
+        <div className='bg-[#66ff00a6] px-4 py-1 rounded flex items-center gap-2'>Basic <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 7.01001V7.00002M12 17L12 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div>
+     </div>)}
     </div>
-  );
+  )
 }
-
-
-const dataset = [
-    {
-      name: 'Skill 1',
-      level: 'Basic',
-      value: 3,
-    },
-    {
-      name: 'Skill 2',
-      level: 'Advanced',
-      value: 3,
-    },
-    {
-      name: 'Skill 3',
-      level: 'Advanced',
-      value: 2,
-    },
-    {
-      name: 'Skill 4',
-      level: 'Advanced',
-      value: 1,
-    },
-
-
-];
-

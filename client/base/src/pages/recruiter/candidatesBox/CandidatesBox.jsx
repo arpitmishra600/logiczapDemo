@@ -5,8 +5,8 @@ import React from 'react'
 
 export default function CandidatesBox() {
   return (
-    <div className='bg-white rounded-[32px] w-full min-h-[300px] flex p-3'>
-      <div className='flex-1 overflow-x-auto h-[80vh]'>
+    <div className='bg-white rounded-[32px] w-full min-h-[300px] flex p-3 '>
+      <div className='flex-1 overflow-x-auto h-[80vh] scroll-custom'>
         {[1,2,3,4].map((item)=>
         <div className='flex gap-2 border-b pb-5 max-md:flex-col'>
 

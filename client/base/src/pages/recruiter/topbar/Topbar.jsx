@@ -10,7 +10,7 @@ export default function Topbar() {
   return (
     <div className='flex h-20 w-full items-center p-2 gap-5 relative'>
        
-      <span className='text-3xl font-bold flex-1 max-md:text-2xl max-sm:hidden' >{selectedRecruiterMenu}</span> 
+      <span className={`text-3xl font-bold flex-1 max-md:text-2xl ${selectedRecruiterMenu=="profile"?"":" max-sm:hidden"}`} >{selectedRecruiterMenu?.charAt(0).toUpperCase() + selectedRecruiterMenu?.slice(1)}</span> 
       
       {dashDrop && <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.3}} id="dropdownMenu" className={`hidden max-md:block absolute right-5 top-12 mt-2 bg-white rounded-md shadow-lg py-2 text-gray-800 p-3 card-shadow border space-y-2 transition-all duration-500 z-[100]`}>
       <div className='flex items-center justify-center text-[#18273A] gap-2  py-3 border-b'>
@@ -31,15 +31,17 @@ export default function Topbar() {
       
       {selectedRecruiterMenu == "candidates" &&
       
-        <div className='relative flex justify-center flex-[3]'>
-        <input className='w-full outline-none bg-[white] p-2 pl-10  rounded-xl' placeholder='search' />
-  <svg className='absolute left-3 top-[10px]' width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="9.76659" cy="9.7666" r="8.98856" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M16.0183 16.4851L19.5423 20" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-          <button className='mx-3 bg-[#3C21F7] text-white text-sm flex gap-2 items-center px-3 rounded-lg ' onClick={()=>setOpenFilter(!openFilter)}>{svgs.filter} <span className='max-sm:hidden'>Filter</span>
-          </button>
-          {openFilter && <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.2}} className='w-[300px] min-w-[200px] bg-slate-200 absolute right-0 p-5 h-[80vh] overflow-x-auto top-12 z-[100] rounded'>
+        <div className='sm:relative flex justify-center flex-[3]'>
+        <div className='flex relative w-full'>
+          <input className='w-full outline-none bg-[white] p-2 pl-10  rounded-xl' placeholder='search' />
+    <svg className='absolute left-3 top-[10px]' width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="9.76659" cy="9.7666" r="8.98856" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16.0183 16.4851L19.5423 20" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+            <button className='mx-3 bg-[#3C21F7] text-white text-sm flex gap-2 items-center px-3 rounded-lg ' onClick={()=>setOpenFilter(!openFilter)}>{svgs.filter} <span className='max-sm:hidden'>Filter</span>
+            </button>
+        </div>
+          {openFilter && <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.2}} className='w-[300px] min-w-[200px] card-shadow absolute right-0 p-5 h-[80vh] overflow-x-auto top-12 z-[100] max-sm:top-20 '>
               <Filter setOpenFilter={setOpenFilter}/>
             </motion.div>}
       </div>

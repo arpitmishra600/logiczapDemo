@@ -1,4 +1,6 @@
-const UserProfile = require("../models/userProfile.models")
+const UserProfile = require("../models/userProfile.models");
+const User = require("../models/user.models");
+const {uploadOnCloudinary} = require("../utils/cloudinary");
 
 exports.addEducation = async (req, res) => {
     const { education } = req.body;
@@ -192,16 +194,56 @@ exports.updateName = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
-    const {education, positionsOfResponsibility, skills, workExperience, name} = req.body;
+    const {education, 
+        skills, 
+        workExperience, 
+        name, 
+        domain, 
+        languages, 
+        locations, 
+        expectedSalary, 
+        experience, 
+        about, 
+        projects } = req.body;
     const id = req.user.profile;
     
     try {
+        
+        const updatedProjects = [];
+
+        for (let i = 0; i < projects.length; i++) {
+            const project = JSON.parse(projects[i]);
+
+            const file = req.files[i];
+
+            let uploadedFile;
+            if (file) {
+                uploadedFile = await uploadOnCloudinary(file.path);
+            }
+
+            updatedProjects.push({
+                name: project.name,
+                description: project.description,
+                file: uploadedFile?.url || null
+            });
+        }
+
         const profile = await UserProfile.findOneAndUpdate({_id: id}, {
-            name,
             education,
-            positionsOfResponsibility,
             skills,
-            workExperience
+            workExperience,
+            domain,
+            languages,
+            locations,
+            expectedSalary,
+            experience,
+            about, 
+            projects: updatedProjects
+        }, {new: true});
+
+        await User.findOneAndUpdate({_id: req.user._id}, {
+            name,
+            isFormFilled: true
         }, {new: true});
         
         return res.status(200).json({message: "Profile updated successfully", profile});
@@ -209,5 +251,3 @@ exports.updateProfile = async (req, res) => {
         res.status(500).json({message: "Error updating profile"});
     }
 }
-
-exports.searchUser

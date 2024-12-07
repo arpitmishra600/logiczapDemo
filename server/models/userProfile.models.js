@@ -2,28 +2,26 @@ const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 
 const educationSchema = new Schema({
-  institution: { type: String },
-  qualification: { type: String },
+  instituteName: { type: String },
+  fieldOfStudy: { type: String },
   startDate: { type: Date },
   endDate: { type: Date },
-  stream :{ type: String },
+  branch:{ type: String },
 });
 
 const workExperienceSchema = new Schema({
-  company: { type: String },
-  role: { type: String },
+  companyName: { type: String },
+  position: { type: String },
   startDate: { type: Date },
   endDate: { type: Date }, 
-  description: { type: String }
-});
-
-const skillsSchema = new Schema({
-  name: { type: String },
-  proficiency: { type: String, enum: ['Beginner', 'Intermediate', 'Advanced'] }
+  currentlyWorking: { 
+    type: Boolean, 
+    default: false 
+  },
 });
 
 const projectsSchema = new Schema({
-  Projectname: { type: String },
+  name: { type: String },
   description: { type: String },
   image: { type: String },
 })
@@ -31,7 +29,9 @@ const projectsSchema = new Schema({
 const userProfileSchema = new Schema({
   education: [educationSchema],
   workExperience: [workExperienceSchema],
-  skills: [skillsSchema],
+  skills: {
+    type: [String]
+  },
   projects: [projectsSchema],
   locations: [String],
   expectedSalary: { 
@@ -43,8 +43,8 @@ const userProfileSchema = new Schema({
     default: 0 
   },
   domain: { 
-    type: String,
-    default: '',
+    type: [String],
+    default: '',  
     index: true
   },
   languages: {
@@ -59,6 +59,6 @@ const userProfileSchema = new Schema({
 
 userProfileSchema.index({ locations: 1 });
 userProfileSchema.index({ domain: 1 });
-userProfileSchema.index({ 'skills.name': 1 });
+userProfileSchema.index({ skills: 1 });
 
 module.exports = mongoose.model('UserProfile', userProfileSchema);

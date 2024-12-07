@@ -21,6 +21,10 @@ exports.addWorkExperience = async (req, res) => {
     const  id  = req.user.profile;
     try {
         const userProfile = await UserProfile.findOne({ _id: id });
+        const length = userProfile.workExperience.length;
+        if (length >= 3) {
+            return res.status(400).json({ message: "You can only add 3 work experiences" });
+        }
         userProfile.workExperience.unshift(workExperience);
         await userProfile.save();
         return res.status(200).json({ message: "Work experience added successfully" , workExperience: userProfile.workExperience});
@@ -29,16 +33,29 @@ exports.addWorkExperience = async (req, res) => {
     }
 }
 
-exports.addPositionOfResponsibility = async (req, res) => {
-    const { positionOfResponsibility } = req.body;
-    const  id  = req.user.profile;
+exports.addProject = async (req, res) => {
+    const {project} = req.body;
+    const id = req.user.profile;
+    const path = req.file?.path;
+
     try {
-        const userProfile = await UserProfile.findOne({ _id: id });
-        userProfile.positionsOfResponsibility.unshift(positionOfResponsibility);
+        const userProfile = await UserProfile.findOne({_id: id});
+        const length = userProfile.projects.length;
+        if (length >= 3) {
+            return res.status(400).json({message: "You can only add 3 projects"});
+        }
+
+        if (path) {
+            const uploadedFile = await uploadOnCloudinary(path);
+            project.image = uploadedFile.url;
+        }
+        
+        userProfile.projects.unshift(project);
         await userProfile.save();
-        return res.status(200).json({ message: "Position of responsibility added successfully" , positionOfResponsibility: userProfile.positionsOfResponsibility});
+        return res.status(200).json({message: "Project added successfully", project: userProfile.projects});
     } catch (error) {
-        res.status(500).json({ message: "error adding position of responsibility" });
+        res.status(500).json({message: "error adding project"});
+        console.log(error);
     }
 }
 
@@ -83,17 +100,22 @@ exports.updateWorkExperience = async (req, res) => {
     }
 }
 
-exports.updatePositionOfResponsibility = async (req, res) => {
-    const { positionOfResponsibility } = req.body;
+exports.updateProject = async (req, res) => {
+    const { project } = req.body;
+    const path = req.file?.path;
     const  id  = req.user.profile;
     try {
         const userProfile = await UserProfile.findOne({ _id: id });
-        const index = userProfile.positionsOfResponsibility.findIndex(pos => pos._id.toString() === positionOfResponsibility._id.toString()); 
-        userProfile.positionsOfResponsibility[index] = positionOfResponsibility;
+        const index = userProfile.projects.findIndex(project => project._id.toString() === projects._id.toString());
+        if (path) {
+            const uploadedFile = await uploadOnCloudinary(path);
+            project.image = uploadedFile.url;
+        }
+        userProfile.projects[index] = project;
         await userProfile.save();
-        return res.status(200).json({ message: "Position of responsibility updated successfully" , positionOfResponsibility: userProfile.positionsOfResponsibility});
+        return res.status(200).json({ message: "Project updated successfully" , project: userProfile.projects});
     } catch (error) {
-        res.status(500).json({ message: "Error updating position of responsibility" });
+        res.status(500).json({ message: "error updating project" });
     }
 }
 
@@ -145,22 +167,22 @@ exports.deleteWorkExperience = async (req, res) => {
     }
 }
 
-exports.deletePositionOfResponsibility = async (req, res) => {
-    const { positionOfResponsibilityId } = req.body;
+exports.deleteProject = async (req, res) => {
+    const { projectId } = req.body;
     const  id  = req.user.profile;
     try {
         const userProfile = await UserProfile.findOne({ _id: id });
 
-        const index = userProfile.positionsOfResponsibility.findIndex(por => por._id.toString() === positionOfResponsibilityId);
+        const index = userProfile.projects.findIndex(project => project._id.toString() === projectId);
 
-        userProfile.positionsOfResponsibility.splice(index, 1);
+        userProfile.projects.splice(index, 1);
 
         await userProfile.save();
 
-        return res.status(200).json({ message: "Position of responsibility deleted successfully" , positionOfResponsibility: userProfile.positionsOfResponsibility});
+        return res.status(200).json({ message: "Project deleted successfully" , workExperience: userProfile.workExperience});
 
     } catch (error) {
-        res.status(500).json({ message: "error deleting position of responsibility" });
+        res.status(500).json({ message: "error deleting project" });
     }
 }
 
@@ -194,39 +216,41 @@ exports.updateName = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
-    const {education, 
-        skills, 
-        workExperience, 
-        name, 
-        domain, 
+    const {name, 
         languages, 
         locations, 
-        expectedSalary, 
-        experience, 
-        about, 
-        projects } = req.body;
+        about } = req.body;
+        
     const id = req.user.profile;
     
     try {
+        const projects = JSON.parse(req.body.projects || "[]");
+        const skills = JSON.parse(req.body.skills || "[]");
+        const workExperience = JSON.parse(req.body.workExperience || "[]");
+        const education = JSON.parse(req.body.education || "[]");
+        const domain = JSON.parse(req.body.domain || "[]");
         
         const updatedProjects = [];
 
         for (let i = 0; i < projects.length; i++) {
-            const project = JSON.parse(projects[i]);
+            const project = typeof projects[i] === 'string' 
+                ? JSON.parse(projects[i]) 
+                : projects[i];
 
-            const file = req.files[i];
-
-            let uploadedFile;
-            if (file) {
-                uploadedFile = await uploadOnCloudinary(file.path);
+            const path = req.files[i].path;
+            
+            let uploadedFile
+            if (path) {
+                uploadedFile = await uploadOnCloudinary(path);
             }
 
             updatedProjects.push({
-                name: project.name,
+                name: project.projectName,
                 description: project.description,
-                file: uploadedFile?.url || null
+                image: uploadedFile?.url || null
             });
         }
+        
 
         const profile = await UserProfile.findOneAndUpdate({_id: id}, {
             education,
@@ -235,8 +259,6 @@ exports.updateProfile = async (req, res) => {
             domain,
             languages,
             locations,
-            expectedSalary,
-            experience,
             about, 
             projects: updatedProjects
         }, {new: true});
@@ -248,6 +270,7 @@ exports.updateProfile = async (req, res) => {
         
         return res.status(200).json({message: "Profile updated successfully", profile});
     } catch (error) {
+        console.log(error); 
         res.status(500).json({message: "Error updating profile"});
     }
 }

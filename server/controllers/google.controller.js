@@ -2,6 +2,14 @@ const { OAuth2Client } = require('google-auth-library');
 const User = require("../models/user.models");
 const UserProfile = require("../models/userProfile.models");
 const {generateCustomId} = require("../controllers/user.controllers")
+const jwt = require('jsonwebtoken');
+
+const options = {
+  expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+  httpOnly: true, 
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax"
+}
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -13,6 +21,7 @@ async function verifyGoogleToken(req, res) {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
+      maxExpiry: '1h',
     });
 
     const payload = ticket.getPayload();
@@ -26,8 +35,11 @@ async function verifyGoogleToken(req, res) {
       const profile = await UserProfile.create({
         education: [],
         workExperience: [],
-        positionsOfResponsibility: [],
+        projects: [],
         skills: [],
+        locations: [],
+        domain: [],
+        languages: [],
       });
 
       const customId = await generateCustomId(User.collection);
@@ -40,9 +52,11 @@ async function verifyGoogleToken(req, res) {
         profile: profile._id,
       });
     }
-
-    // Optionally, create a session or send back a token
-    res.json({ success: true, user });
+    
+    const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET);
+    
+    
+    return res.status(200).cookie("token", accessToken, options).json({ success: true, user });
   } catch (error) {
     console.error('Error verifying Google token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });

@@ -49,14 +49,22 @@ export default function CandidateForm() {
   formDataUpd.append("languages", JSON.stringify(formData.languagesSpoken)); // Serialize array/object
   formDataUpd.append("locations", JSON.stringify(formData.preferredWorkLocations)); // Serialize array/object
   formDataUpd.append("expectedSalary", 0); // Direct value
-  formDataUpd.append("experience", JSON.stringify(formData.experience)); // Serialize array/object
   formDataUpd.append("about", formData.about); // Direct value
+  formDataUpd.append(`projects`, JSON.stringify(formData.projects));
+
+  formData.projects.forEach((project, index) => {
+    if (project.image) {
+      formDataUpd.append(`files`, project.image);
+    }
+  });
+
+  
 
   // Logging FormData contents
   for (let [key, value] of formDataUpd.entries()) {
     console.log(key, value);
   }
-  const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/profile/updateProfile`, formData, {
+  const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/profile/updateProfile`, formDataUpd, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

@@ -15,7 +15,7 @@ export default function Login() {
           
         const response = await axios.post(
           `${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/google/verify`,
-          { token: credential }
+          { token: credential }, {withCredentials:true}
         );
   
         if (response.data.success) {
@@ -43,10 +43,8 @@ export default function Login() {
          const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/login`,data,{withCredentials:true})
          console.log(response)
          if (response.status==200 && response.data.message==="User logged in"){
-             localStorage.setItem("loggedInAs",response.data.user.name)
-             localStorage.setItem("plan",response.data.user.plan)
              toast.success("Logged in successfully")
-             navigate("/mainpage")
+             navigate("/candidate/form")
          }
        } catch (error) {
         toast.error(error.response.data.message)
@@ -74,7 +72,7 @@ export default function Login() {
                 
                 <div className='flex justify-between mt-2 mb-4'>
                   <div className='text-sm font-bold text-[#3523B5]'>Forget password?</div>
-                  <div className='text-sm font-bold text-[#3523B5]'>Login</div> 
+                  <div onClick={handleSubmit} className='text-sm font-bold text-[#3523B5]'>Login</div> 
                 </div>
                 <div className='text-sm underline'>Don't have an account?  <Link to="/signup" className='underline'>signup</Link></div>
               </div>

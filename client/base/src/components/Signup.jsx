@@ -179,7 +179,7 @@ export default function Signup() {
         
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/google/verify`,
-        { token: credential }
+        { token: credential }, {withCredentials: true}
       );
 
       if (response.data.success) {

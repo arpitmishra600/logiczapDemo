@@ -9,8 +9,8 @@ const {uploadOnCloudinary} = require("../utils/cloudinary");
 const options = {
   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
   httpOnly: true, 
-  secure: true,
-  sameSite: "None"
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax"
 }
 
 const passwordSchema = z.string()
@@ -141,8 +141,11 @@ exports.signupHandler = async (req, res) => {
         const profile = await UserProfile.create({
             education: [],
             workExperience: [],
-            positionsOfResponsibility: [],
-            skills: []
+            projects: [],
+            skills: [],
+            locations: [],
+            domain: [],
+            languages: [],
         });
         
         const user = await User.create({
@@ -247,7 +250,7 @@ exports.search = async (req, res) => {
       // Search by skills
       if (skills) {
         const skillsArray = Array.isArray(skills) ? skills : skills.split(',');
-        filter['skills.name'] = { $in: skillsArray };
+        filter.skills = { $in: skillsArray };
       }
   
       // Search by languages
@@ -260,7 +263,8 @@ exports.search = async (req, res) => {
   
       // Search by domain (case-insensitive)
       if (domain) {
-        filter.domain = { $regex: domain, $options: 'i' };
+        const domainArray = Array.isArray(domain) ? domain : domain.split(',');
+        filter.domain = { $in: domainArray };
       }
   
       // Search by locations
@@ -369,6 +373,23 @@ exports.getLastSeen = async (req, res) => {
         console.log("Error fetching last seen", error);
         res.status(500).json({message: "Internal server error"})
         
+    }
+}
+
+exports.getUserByUsername = async (req, res) => {
+    const {username} = req.params;
+
+    try {
+        const user = await User.findOne({username}).populate("profile").select("-password");
+
+        if (!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+
+        return res.status(200).json({user});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Could not get user"});
     }
 }
 

@@ -103,10 +103,10 @@ exports.sendOtpHandler = async (req, res) => {
 }
 
 exports.signupHandler = async (req, res) => {
-    const {username, email, password, country, state, city, pincode, phoneNumber, otp, language} = req.body;
+    const {username, email, password, country, state, city, pincode, phoneNumber, otp} = req.body;
 
     try {
-        if (!username || !email || !password || !country || !state || !city || !pincode || !phoneNumber || !language) {
+        if (!username || !email || !password || !country || !state || !city || !pincode || !phoneNumber || !otp) {
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
@@ -127,15 +127,16 @@ exports.signupHandler = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({message: "User already exists"});
         }
-        const recentOtp = await Otp.findOne({email}).sort({createdAt: -1}).limit(1);
+        const recentOtp = await Otp.findOne({ email }).sort({ createdAt: -1 });
 
-        if (recentOtp.otp !== otp) {
-            return res.status(400).json({message: "Invalid OTP"});
+        if (!recentOtp || recentOtp.otp !== otp) {
+            return res.status(400).json({ message: "Invalid OTP" });
         }
+        
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const customId = await generateCustomId(User.collection);
+        const customId = await exports.generateCustomId(User.collection);
 
         const profile = await UserProfile.create({
             education: [],

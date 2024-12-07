@@ -184,7 +184,12 @@ export default function Signup() {
 
       if (response.data.success) {
         console.log('Login successful:', response.data);
-        navigate('/mainpage');
+        if (response.data.user.isFormFilled){
+          navigate('/candidate/dashboard');
+        }else{
+          navigate('/candidate/form');
+        }
+        
       } else {
         console.error('Login failed:', response.data.message);
       }
@@ -215,7 +220,7 @@ export default function Signup() {
                 </div>
 
                <div className='w-full flex justify-center'>
-                  <GoogleLogin auto_select width="100%"
+                  <GoogleLogin auto_select 
                    onSuccess={handleSuccess}
                    onError={handleError}
                     useOneTap  />
@@ -304,7 +309,7 @@ export default function Signup() {
     </div>
     <div className='flex justify-between mt-2 mb-4'>
         <div className='text-sm underline'>Existing user?  <Link to="/login" className='underline'>login</Link></div>
-        <div className='text-sm font-bold text-[#3523B5]'>Signup</div> 
+        <div className='text-sm font-bold text-[#3523B5]' onClick={handleSubmit} >Signup</div> 
     </div>
       </div>:
       
@@ -319,7 +324,7 @@ export default function Signup() {
          <TextField className='flex-1' id="name" label="Designation" variant="outlined" size='small'/>
          <div className='flex justify-between mt-2 mb-4'>
         <div className='text-sm underline'>Existing user?  <Link to="/login" className='underline'>login</Link></div>
-        <div className='text-sm font-bold text-[#3523B5]'>Signup</div> 
+        <div className='text-sm font-bold text-[#3523B5]' onClick={handleSubmit}>Signup</div> 
     </div>
       </div>}
       

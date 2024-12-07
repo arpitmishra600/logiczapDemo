@@ -4,9 +4,40 @@ import { Button } from '@mui/material';
 import axios from "axios"
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
 export default function Login() {
     const [data,setData]=useState({email:"",password:""})
     const navigate=useNavigate()
+
+    const handleSuccess = async (credentialResponse) => {
+      try {
+        const { credential } = credentialResponse;
+          
+        const response = await axios.post(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/google/verify`,
+          { token: credential }
+        );
+  
+        if (response.data.success) {
+          console.log('Login successful:', response.data);
+          if (response.data.user.isFormFilled){
+            navigate('/candidate/dashboard');
+          }else{
+            navigate('/candidate/form');
+          }
+          
+        } else {
+          console.error('Login failed:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error verifying Google token:', error);
+      }
+    };
+  
+    const handleError = () => {
+      console.error('Google Login Failed');
+    };
+    
     const handleSubmit=async()=>{
        try {
          const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/login`,data,{withCredentials:true})
@@ -32,7 +63,12 @@ export default function Login() {
                   <div className='text-2xl font-bold max-sm:text-[1.3rem]'>Sign into your account</div>
                 </div>
 
-                <div className='w-[100%] flex justify-center items-center gap-3 border font-[inter] p-3  card-shadow-lite2 rounded cursor-pointer'><img src='./google.svg' className='w-[30px]'/><div className='font-500'>Google</div></div>
+                <div className='w-full flex justify-center'>
+                  <GoogleLogin auto_select 
+                   onSuccess={handleSuccess}
+                   onError={handleError}
+                    useOneTap  />
+               </div>
                 <div className=' border my-5 relative flex items-center justify-center'><div className='font-[inter] absolute bg-[white] text-xs -top-2 px-3 '>Or with email and password</div></div>
                 {Object.keys(data).map((item)=><TextField className='mt-3' id={item} label={item} variant="outlined" onChange={(e)=>setData({...data,[item]:e.target.value})} size='small'/>)}
                 

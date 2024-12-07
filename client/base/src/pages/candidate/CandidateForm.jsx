@@ -19,6 +19,7 @@ import Languageform from './stepforms/Languageform'
 import ImageForm from './stepforms/ImageForm'
 import {AnimatePresence, motion} from "framer-motion"
 import { TypeAnimation } from 'react-type-animation'
+import axios from 'axios'
 const textData=[
   ["Let’s get to know you! Share your complete name.","Your full name, please!","Let’s keep it formal yet fabulous."],
   ["Introduce yourself to potential employers—what should they know about you?","Who are you beyond the resume?","Describe yourself in a way that showcases your personality and passion."],
@@ -36,6 +37,36 @@ export default function CandidateForm() {
   const form=[<NameForm/>,<AboutForm/>,<EducationForm/>,<ExperienceForm/>,<ProjectForm/>,<SkillForm/>,<WorkRolesForm/>,<WorkLocation/>,<Languageform/>,<ImageForm/>]
   const {formSteps, setFormSteps,enableNextButton,setEnableNextButton,formData} = useMyContext()
 
+  const handelFinalSubmit = async() => {
+  const formDataUpd = new FormData();
+
+  // Serialize complex fields before appending
+  formDataUpd.append("education", JSON.stringify(formData.education)); // Serialize array/object
+  formDataUpd.append("skills", JSON.stringify(formData.skills)); // Serialize array/object
+  formDataUpd.append("workExperience", JSON.stringify(formData.experience)); // Serialize array/object
+  formDataUpd.append("name", `${formData.firstName}, ${formData.lastName}`); // Combine firstName and lastName
+  formDataUpd.append("domain", JSON.stringify(formData.preferredWorkRoles)); // Serialize array/object
+  formDataUpd.append("languages", JSON.stringify(formData.languagesSpoken)); // Serialize array/object
+  formDataUpd.append("locations", JSON.stringify(formData.preferredWorkLocations)); // Serialize array/object
+  formDataUpd.append("expectedSalary", 0); // Direct value
+  formDataUpd.append("experience", JSON.stringify(formData.experience)); // Serialize array/object
+  formDataUpd.append("about", formData.about); // Direct value
+
+  // Logging FormData contents
+  for (let [key, value] of formDataUpd.entries()) {
+    console.log(key, value);
+  }
+  const response=await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/profile/updateProfile`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+  });
+  console.log(response)
+};
+
+
+ 
 
 
   
@@ -147,7 +178,10 @@ useEffect(() => {
           </button>:
           <motion.button initial={{opacity:0,display:"none"}} animate={{opacity:1,display:"block"}} transition={{duration:0.5,delay:1}}
           className={`${!enableNextButton?"bg-[gray] opacity-50":"bg-[#6B169F] opacity-100"}border-[gray] max-sm:px-8 max-sm:text-sm border-[1px] rounded absolute font-bold bottom-0 right-0 px-14 py-2 text-[white] transition-all duration-500 `}
-          onClick={() => console.log(formData)}
+          onClick={() => 
+            // console.log(formData)
+            handelFinalSubmit()
+          }
           disabled={!enableNextButton}
         >
           Submit

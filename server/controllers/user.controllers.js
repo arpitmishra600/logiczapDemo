@@ -221,7 +221,7 @@ exports.getFullUser = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.find().populate("profile");
+        const users = await User.find().populate("profile").select("-password");
         return res.status(200).json({users});
     } catch (error) {
         return res.status(400).json({message: "Error getting users"});
@@ -238,10 +238,13 @@ exports.search = async (req, res) => {
       maxExperience,
       minExpectedSalary,
       maxExpectedSalary,
+      page = 1,
+      limit = 8
     } = req.body;
+
+    const skip = (page-1)*limit;
   
     
-  
     try {
       
       // Initialize filter object for query
@@ -264,7 +267,7 @@ exports.search = async (req, res) => {
       // Search by domain (case-insensitive)
       if (domain) {
         const domainArray = Array.isArray(domain) ? domain : domain.split(',');
-        filter.domain = { $in: domainArray };
+        filter.domain = { $in: domainArray.map((d) => new RegExp(d, 'i')) };
       }
   
       // Search by locations
@@ -272,7 +275,7 @@ exports.search = async (req, res) => {
         const locationsArray = Array.isArray(locations)
           ? locations
           : locations.split(',');
-        filter.locations = { $all: locationsArray };
+        filter.locations = { $in: locationsArray };
       }
   
       // Search by experience range
@@ -290,18 +293,18 @@ exports.search = async (req, res) => {
       }
   
       // Fetch matching profiles
-      const userProfiles = await UserProfile.find(filter).lean();
+      const userProfiles = await UserProfile.find(filter).skip(skip).limit(limit);
       
       const userIds = userProfiles.map(profile => profile._id);
 
       const users = await User.find({ profile: { $in: userIds } })
-        .populate('profile') // Populate the profile field
-        .select('-password') // Exclude sensitive fields like password
-        .lean(); // Convert to plain objects to avoid circular references
+        .populate('profile') 
+        .select('-password') 
+        .lean();
   
-      const totalUsers = userProfiles.length;
+      const totalUsers = await UserProfile.countDocuments(filter);
   
-      res.status(200).json({ users, totalUsers });
+      res.status(200).json({ users, totalUsers, totalPages: Math.ceil(totalUsers / limit), currentPage: page });
     } catch (error) {
       console.error('Search Error:', error.message);
       res.status(500).json({ message: 'Error during search', error: error.message });
@@ -363,7 +366,7 @@ exports.getLastSeen = async (req, res) => {
     const {userId} = req.body;
     
     try {
-        const user = await User.findById(userId);
+        const user = await User.findOne({_id: userId});
         if (!user) {
             return res.status(404).json({message: "User not found"});
         }
@@ -381,6 +384,23 @@ exports.getUserByUsername = async (req, res) => {
 
     try {
         const user = await User.findOne({username}).populate("profile").select("-password");
+
+        if (!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+
+        return res.status(200).json({user});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Could not get user"});
+    }
+}
+
+exports.getUserById = async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        const user = await User.findOne({_id: id}).populate("profile").select("-password");
 
         if (!user) {
             return res.status(404).json({message: "User not found"});

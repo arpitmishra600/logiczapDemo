@@ -57,7 +57,7 @@ export default function ImageForm() {
   }, [croppingImage, croppedAreaPixels, croppingFor]);
 
   return (
-    <div className="flex flex-col gap-2 w-[100%]">
+    <div className="flex flex-col gap-2 w-[100%] z-[1000]">
       <div className="flex gap-3 max-md:flex-col text-nowrap flex-wrap">
         {/* Profile picture section */}
         <div className="flex flex-[0.3] flex-col gap-3">
@@ -98,7 +98,7 @@ export default function ImageForm() {
 
       {/* Cropping UI (appears when cropping an image) */}
       {croppingImage && (
-        <div>
+        <div className='absolute z-[100] h-[100%] w-[100%] top-0 left-0'>
           <Cropper
             image={croppingImage}
             crop={crop}
@@ -107,6 +107,7 @@ export default function ImageForm() {
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
+           
           />
           <Button variant='contained' onClick={handleCropConfirm}>Confirm Crop</Button>
         </div>

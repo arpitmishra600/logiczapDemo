@@ -8,6 +8,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import LocationDropdown from "../../../components/LocationDropdown";
+import ImageForm from "../../../pages/candidate/stepforms/ImageForm";
 
 const BasicEdit = ({ open, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -56,6 +57,8 @@ const BasicEdit = ({ open, onClose, onSave }) => {
           position: "absolute",
           top: "50%",
           left: "50%",
+          overflowY:"auto",
+          maxHeight: "90vh",
           transform: "translate(-50%, -50%)",
           width: 400,
           bgcolor: "background.paper",
@@ -124,6 +127,7 @@ const BasicEdit = ({ open, onClose, onSave }) => {
             fullWidth
           />
         </Box>
+       <ImageForm/>
         <Box mt={2} display="flex" justifyContent="flex-end" gap={2}>
           <Button onClick={onClose} color="secondary">
             Cancel
@@ -131,8 +135,11 @@ const BasicEdit = ({ open, onClose, onSave }) => {
           <Button onClick={handleSave} variant="contained" color="primary">
             Save
           </Button>
+
         </Box>
+        
       </Box>
+      
     </Modal>
   );
 };

@@ -12,6 +12,8 @@ export default function Login() {
     const handleSuccess = async (credentialResponse) => {
       try {
         const { credential } = credentialResponse;
+
+        console.log(credential)
           
         const response = await axios.post(
           `${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/google/verify`,
@@ -22,6 +24,7 @@ export default function Login() {
           console.log('Login successful:', response.data);
           if (response.data.user.isFormFilled){
             navigate('/candidate/dashboard');
+            localStorage.setItem("userID",response.data.user._id)
           }else{
             navigate('/candidate/form');
           }

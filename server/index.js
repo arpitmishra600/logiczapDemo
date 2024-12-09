@@ -12,8 +12,6 @@ const recruiterRoutes = require("./routes/recruiter.routes");
 const io = require("./websocket/socket-server-recruiter");
 const messageRoutes = require("./routes/messages.routes");
 const googleRoutes = require("./routes/google.routes");
-const session = require('express-session');
-
 
 
 dotenv.config();

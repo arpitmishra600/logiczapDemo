@@ -1,19 +1,50 @@
 import { Avatar, Chip } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMyContext } from '../../context/Context'
 import AboutEdit from '../../modals/candidate/dashboard/AboutEdit'
 import ProjectsEdit from '../../modals/candidate/dashboard/ProjectsEdit'
 import SkillEdit from '../../modals/candidate/dashboard/SkillsEdit'
-import Skills from './profile/Skills'
+
 import ExperienceEdit from '../../modals/candidate/dashboard/ExperienceEdit'
 import EducationEdit from '../../modals/candidate/dashboard/EducationEdit'
 import AdditionalEdit from '../../modals/candidate/dashboard/AdditionalEdit'
 import { useParams } from 'react-router-dom'
 import BasicEdit from '../../modals/candidate/dashboard/BasicEdit'
+import axios from 'axios'
 
 
 
 export default function CandidateProfile({type}) {
+  function convertToMonYear(dateString) {
+    const date = new Date(dateString);
+    const options = { month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options).replace(',', '');
+}
+
+
+
+  const [data,setData]=useState({})
+  useEffect(()=>{
+    const fetchUserData = async () => {
+      try {
+    
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/api/v1/user/getFullUser`,
+          {
+           withCredentials:true
+          }
+        );
+    
+        const user = response.data.user; // Extract user from response
+        console.log(user)
+        setData(user)
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+   
+    fetchUserData()
+  },[])
   const {editAbout,setEditAbout,editProjects,setEditProjects,editSkills,setEditSkills,editExperience,setEditExperience,editEducation,setEditEducation,editAdditional,setEditAdditional}=useMyContext()
   const {pid}=useParams()
   const [editOpen,setEditOpen]=useState(false) 
@@ -28,19 +59,18 @@ export default function CandidateProfile({type}) {
            </div> 
            
             <div id='infoBox' className='font-[inter] max-md:ml-[130px] flex flex-col relative max-md:-mt-[90px] max-sm:ml-[90px] max-sm:-mt-[70px] max-md:gap-0 -mt-[129px] ml-[185px] tracking-wide gap-1 mb-3'>
-                <div id="name" className='text-3xl font-[600] font-[inter] pb-1 flex justify-between items-center max-md:text-xl '>Arpit Mishra 
+                <div id="name" className='text-3xl font-[600] font-[inter] pb-1 flex justify-between items-center max-md:text-xl '>{data?.name?.split(",")[0].toUpperCase()+data?.name?.split(",")[1].toUpperCase()}
                  {type=="public"? <div className='flex items-center gap-2 max-sm:gap-1'>
                     {svgs.download}
                     <button className='flex text-white bg-[#5064F7] text-sm tracking-wide rounded-lg gap-1 py-1 items-center pr-3 !font-[400] mr-3 max-md:pr-[6px]'><img src='/send.svg' className='w-[30px] max-md:w-[20px] rotate-[45deg]'/><div className='max-md:hidden'>Share Profile</div></button>
                  </div>: <div onClick={()=>setEditOpen(true)} className='flex gap-1 items-center justify-center cursor-pointer mr-4'><img src='/edit.svg' className='w-[30px]'/></div>}
                   </div>
                 <div id='about' className='text-[#686868] text-xs font-[500]'>MERN stack developer @ Logiczap</div>
-                <div class="text-[#686868]  text-xs font-[500]">Bhubaneswar, Odisha, India</div>
+                {data.city && <div class="text-[#686868]  text-xs font-[500]">{data.city}, {data.state}, {data.country}</div>}
             <div className='flex'>
+              
                <div className='rounded-sm gap-2 flex-wrap  flex py-2 pb-3 border-b'>
-                  <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>UX Dev</span>
-                  <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Designer</span>
-                  <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Freelancer</span>
+                  {data?.profile?.domain.map((item)=><span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>UX Dev</span>) }
                </div>
                 
             </div>    
@@ -54,7 +84,7 @@ export default function CandidateProfile({type}) {
               <div className='font-[600] text-xl tracking-wide max-md:text-lg'>About Me</div>
                 {type=="private" && <div onClick={()=>setEditAbout(!editAbout)} className='flex gap-1 items-center justify-center cursor-pointer '><img src='/edit.svg' className='w-[30px]'/></div>}
             </div>
-          <div className='text-sm max-md:text-xs'>{"Lorem ipsum dolor sit amet consectetur adipisicing elit. <br/>Iure illo dolorem est quasi doloribus voluptates facere velit fuga iusto. Vero officia quasi similique sit itaque dolores sed.<br/><br/> Nemo dolorem asperiores sapiente natus minus eligendi doloremque, maxime neque iusto modi quae. Nesciunt ipsa perferendis voluptate at ducimus nostrum alias numquam ab, nemo culpa quibusdam!<br/> Corrupti optio tempora iure, reprehenderit voluptatum nihil quae magnam earum libero deserunt sapiente nesciunt unde dignissimos quaerat accusamus. Sed neque quaerat atque, esse quasi nam facilis, quidem ducimus itaque, aut dolores inventore voluptate ullam quam velit ea.<br/><br/>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates odit obcaecati exercitationem error aperiam sunt nemo maxime commodi, quaerat culpa illo maiores non omnis voluptatibus, cum ducimus. Beatae, alias officia consequuntur facilis totam atque aspernatur eligendi explicabo consequatur fugit saepe.".slice(0,600)+" ..."}</div>
+          <div className='text-sm max-md:text-xs'>{data?.profile?.about}</div>
           <button className='bg-[#EEEEEE] text-xs py-1  tracking-wide px-3 rounded-[7px] font-[500] absolute bottom-6'>Read More...</button>
           </section>
 
@@ -66,11 +96,11 @@ export default function CandidateProfile({type}) {
               </div>
   
               <div className='overflow-auto  flex flex-col gap-5 scroll-custom pr-3'>
-                {[1,2,3,4].map((item)=><div className='flex gap-5'>
-                    <img src='/blankimage.webp' id='edulogo' className='w-[70px] h-[55px]'/>
+                {data?.profile?.projects.map((item)=><div className='flex gap-5'>
+                    <img src={item.image} id='edulogo' className='w-[70px] h-[55px]'/>
                     <div>
-                        <div className='text-md font-[500] mb-2 max-md:text-sm'>Digifolio - career guidance website</div>
-                        <div className='text-xs text-[gray] pr-2'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non, at ea, qui facilis accusantium exercitationem fugiat quia velit id, possimus recusandae animi aspernatur pariatur odit nostrum neque alias ullam enim.</div>
+                        <div className='text-md font-[500] mb-2 max-md:text-sm'>{item.name}</div>
+                        <div className='text-xs text-[gray] pr-2'>{item.description}</div>
                         
                     </div>
                 </div>)}
@@ -84,7 +114,12 @@ export default function CandidateProfile({type}) {
               </div>
 
               <div className='overflow-auto pr-3 scroll-custom'>
-              <Skills/>
+              <div>
+     {data?.profile?.skills.map(item=><div className='flex justify-between items-center border-b py-3'>
+        <div className=''>{item}</div>
+        <div className='bg-[#66ff00a6] px-4 py-1 rounded flex items-center gap-2'>Basic <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 7.01001V7.00002M12 17L12 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div>
+     </div>)}
+    </div>
               </div>
             </section>
           </div>
@@ -95,14 +130,14 @@ export default function CandidateProfile({type}) {
                 {type=="private" && <div onClick={()=>setEditExperience(!editExperience)} className='flex gap-1 items-center justify-center'><img src='/edit.svg' className='w-[30px]'/></div>}
             </div>
 
-            <div className='flex gap-5'>
+            {data?.profile?.workExperience.map((item)=><div className='flex gap-5'>
                 <img src='/office.svg' id='edulogo' className='w-[60px]'/>
                 <div className='max-md:text-xs text-sm'>
-                    <div className='font-[500] tracking-wider '>GANDHI INSTITUTE FOR TECHNOLOGY[GIFT] , BHUBANESWAR</div>
-                    <div className='font-[300]'>Bachelor of Technology - BTech, Computer Science</div>
-                    <div className='font-[400] text-[gray]'>2021 - 2025</div>
+                    <div className='font-[500] tracking-wider '>{item.companyName}</div>
+                    <div className='font-[300]'>{item.position}</div>
+                    <div className='font-[400] text-[gray]'>{convertToMonYear(item.startDate)} - {convertToMonYear(item.endDate)}</div>
                 </div>
-            </div>
+            </div>)}
           </section>
 
           <section id='education' className='bg-[white] border flex flex-col p-5 card-shadow-lite2 rounded-[14px] '>
@@ -111,14 +146,14 @@ export default function CandidateProfile({type}) {
                 {type=="private" && <div onClick={()=>setEditEducation(!editEducation)} className='flex gap-1 items-center justify-center'><img src='/edit.svg' className='w-[30px]'/></div>}
             </div>
 
-            <div className='flex gap-5'>
-                <img src='/graduate.svg' id='edulogo' className='w-[60px]'/>
-                <div className='text-sm max-md:text-xs'>
-                    <div className='font-[500] tracking-wider'>GANDHI INSTITUTE FOR TECHNOLOGY[GIFT] , BHUBANESWAR</div>
-                    <div className='font-[300]'>Bachelor of Technology - BTech, Computer Science</div>
-                    <div className='font-[400] text-[gray]'>2021 - 2025</div>
-                </div>
-            </div>
+          {data?.profile?.education.map((item)=><div className='flex gap-5'>
+              <img src='/graduate.svg' id='edulogo' className='w-[60px]'/>
+              <div className='text-sm max-md:text-xs'>
+                  <div className='font-[500] tracking-wider'>{item.instituteName}</div>
+                  <div className='font-[300]'>{item.fieldOfStudy}</div>
+                  <div className='font-[400] text-[gray]'>{convertToMonYear(item.startDate)} - {convertToMonYear(item.endDate)}</div>
+              </div>
+          </div>)}
           </section>
 
           
@@ -133,17 +168,13 @@ export default function CandidateProfile({type}) {
             
                 <div className='flex justify-between mb-2 gap-2 items-center'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Languages Known</div></div>{type=="private" && <img onClick={()=>setEditAdditional(!editAdditional)}  src='/edit.svg' className='w-[30px]'/>}</div>
                 <div className='flex gap-1 border-b pb-5 mb-3'>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Hindi</span>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>English</span>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Odia</span>
+                  {data?.profile?.locations.map((item)=><span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>{item}</span>)}
                 </div> 
            
             <div>
             <div className='flex justify-between mb-2 gap-2 items-center'><div className='flex justify-between'><div className='font-[600] text-xl max-md:text-lg'>Preffered Locations</div></div>{type=="private" && <img onClick={()=>setEditAdditional(!editAdditional)} src='/edit.svg' className='w-[30px]'/>}</div>
                 <div className='flex gap-1  mb-3'>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Delhi</span>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>Odisha</span>
-                <span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>West Bengal</span>
+                {data?.profile?.languages.map((item)=><span className='bg-[#EEEEEE] text-xs py-1 px-2 rounded-[7px] font-[500]'>{item}</span>)}
                 </div> 
             </div>
            

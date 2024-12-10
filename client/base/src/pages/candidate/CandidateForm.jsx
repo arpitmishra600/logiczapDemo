@@ -20,6 +20,7 @@ import ImageForm from './stepforms/ImageForm'
 import {AnimatePresence, motion} from "framer-motion"
 import { TypeAnimation } from 'react-type-animation'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 const textData=[
   ["Let’s get to know you! Share your complete name.","Your full name, please!","Let’s keep it formal yet fabulous."],
   ["Introduce yourself to potential employers—what should they know about you?","Who are you beyond the resume?","Describe yourself in a way that showcases your personality and passion."],
@@ -33,7 +34,7 @@ const textData=[
   
 ]
 export default function CandidateForm() {
-  
+  const navigate=useNavigate()
   const form=[<NameForm/>,<AboutForm/>,<EducationForm/>,<ExperienceForm/>,<ProjectForm/>,<SkillForm/>,<WorkRolesForm/>,<WorkLocation/>,<Languageform/>,<ImageForm/>]
   const {formSteps, setFormSteps,enableNextButton,setEnableNextButton,formData} = useMyContext()
 
@@ -70,6 +71,10 @@ export default function CandidateForm() {
     },
     withCredentials: true,
   });
+
+  if(response.status==200){
+    navigate("/candidate/dashboard")
+  }
   console.log(response)
 };
 

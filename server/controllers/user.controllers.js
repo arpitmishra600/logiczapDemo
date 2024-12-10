@@ -253,7 +253,7 @@ exports.search = async (req, res) => {
       // Search by skills
       if (skills) {
         const skillsArray = Array.isArray(skills) ? skills : skills.split(',');
-        filter.skills = { $in: skillsArray };
+        filter["skills.skillName"] = { $in: skillsArray };
       }
   
       // Search by languages
@@ -287,9 +287,10 @@ exports.search = async (req, res) => {
   
       // Search by expected salary range
       if (minExpectedSalary || maxExpectedSalary) {
-        filter.expectedSalary = {};
-        if (minExpectedSalary) filter.expectedSalary.$gte = parseFloat(minExpectedSalary);
-        if (maxExpectedSalary) filter.expectedSalary.$lte = parseFloat(maxExpectedSalary);
+        filter["expectedSalary.min"] = {};
+        filter["expectedSalary.max"] = {};
+        if (minExpectedSalary) filter["expectedSalary.min"].$gte = parseFloat(minExpectedSalary);
+        if (maxExpectedSalary) filter["expectedSalary.max"].$lte = parseFloat(maxExpectedSalary);
       }
   
       // Fetch matching profiles

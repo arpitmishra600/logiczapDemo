@@ -25,6 +25,7 @@ export default function Login() {
           if (response.data.user.isFormFilled){
             navigate('/candidate/dashboard');
             localStorage.setItem("userID",response.data.user._id)
+            localStorage.setItem("token",credential)
           }else{
             navigate('/candidate/form');
           }

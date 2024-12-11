@@ -20,6 +20,18 @@ const workExperienceSchema = new Schema({
   },
 });
 
+const skillsSchema = new Schema({
+  skillName: {
+    type: String,
+    index: true
+  },
+  proficiency: {
+    type: String,
+    enum: ['basic', 'intermediate', 'advanced'],
+    default: 'basic'
+  }
+})
+
 const projectsSchema = new Schema({
   name: { type: String },
   description: { type: String },
@@ -29,18 +41,16 @@ const projectsSchema = new Schema({
 const userProfileSchema = new Schema({
   education: [educationSchema],
   workExperience: [workExperienceSchema],
-  skills: {
-    type: [String]
-  },
+  skills: [skillsSchema],
   projects: [projectsSchema],
   locations: [String],
   expectedSalary: { 
-    type: Number,
-    default: 0 
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: 0 }
   },
   experience: { 
     type: Number,
-    default: 0 
+    default: 0  
   },
   domain: { 
     type: [String],
@@ -54,11 +64,29 @@ const userProfileSchema = new Schema({
   about: {
     type: String,
     default: ''
+  },
+  additionalLinks: {
+    github: { 
+      type: String,
+      default: "github.com",
+     },
+    linkedin: { 
+      type: String,
+      default: "linkedin.com",
+     },
+    portfolio: { 
+      type: String,
+      default: "portfolio.com",
+     },
+     mail: {
+        type: String,
+        default: "mail@test.com",
+     }
   }
 }, { timestamps: true });
 
 userProfileSchema.index({ locations: 1 });
 userProfileSchema.index({ domain: 1 });
-userProfileSchema.index({ skills: 1 });
+userProfileSchema.index({ "skills.skillName": 1 });
 
 module.exports = mongoose.model('UserProfile', userProfileSchema);

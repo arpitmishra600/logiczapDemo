@@ -217,18 +217,19 @@ exports.updateName = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
     const {name, 
-        languages, 
-        locations, 
         about } = req.body;
         
     const id = req.user.profile;
     
     try {
-        const projects = JSON.parse(req.body.projects || "[]");
-        const skills = JSON.parse(req.body.skills || "[]");
-        const workExperience = JSON.parse(req.body.workExperience || "[]");
-        const education = JSON.parse(req.body.education || "[]");
-        const domain = JSON.parse(req.body.domain || "[]");
+        const projects = JSON.parse(req.body.projects || []);
+        const skills = JSON.parse(req.body.skills || []);
+        const workExperience = JSON.parse(req.body.workExperience || []);
+        const education = JSON.parse(req.body.education || []);
+        const domain = JSON.parse(req.body.domain || []);
+        const languages = JSON.parse(req.body.languages || []);
+        const locations = JSON.parse(req.body.locations || []);
+
         
         const updatedProjects = [];
 
@@ -251,11 +252,12 @@ exports.updateProfile = async (req, res) => {
             });
         }
         
+        const skillsArray = skills.map(skill => ({skillName: skill}));
 
         const profile = await UserProfile.findOneAndUpdate({_id: id}, {
             education,
-            skills,
             workExperience,
+            skills: skillsArray,
             domain,
             languages,
             locations,
@@ -272,5 +274,21 @@ exports.updateProfile = async (req, res) => {
     } catch (error) {
         console.log(error); 
         res.status(500).json({message: "Error updating profile"});
+    }
+}
+
+exports.updateAdditionalDetails = async (req, res) => {
+    const {github, linkedin, portfolio, mail, languages, locations} = req.body;
+    const id = req.user.profile;
+
+    try {
+        const profile = await UserProfile.findOne({_id: id});
+        profile.additionalLinks = {github, linkedin, portfolio, mail};
+        profile.languages.push(...languages);
+        profile.locations.push(...locations);
+        await profile.save();
+        return res.status(200).json({message: "Additional details updated successfully", profile});
+    } catch (error) {
+        return res.status(500).json({message: "Error updating additional links"});
     }
 }
